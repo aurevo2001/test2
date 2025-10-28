@@ -76,3 +76,18 @@ p{line-height:1.75;margin:0 0 12px}
 .icon-btn svg{width:20px;height:20px;display:block}
 @media(max-width:980px){.trio{grid-template-columns:1fr}.gallery{column-count:2}}
 @media(max-width:640px){.nav-toggle{display:inline-block}.site-nav{position:fixed;inset:64px 0 auto 0;background:var(--c-header);transform:translateY(-8px) scaleY(0);transform-origin:top;transition:.2s;box-shadow:0 12px 30px rgba(0,0,0,.24)}.site-nav.open{transform:translateY(0) scaleY(1)}.site-nav ul{flex-direction:column;padding:12px}.site-nav a{padding:12px 14px;border-radius:8px}.gallery{column-count:1}}
+
+/* REPLACE START — About page styles */
+.about-page .about-hero{margin:0;padding:28px 0 18px;background:linear-gradient(180deg,rgba(255,255,255,0) 0%,rgba(255,245,238,.85) 100%)}
+.about-page .about-hero .inner{max-width:1080px;margin:0 auto;padding:0 20px;display:grid;place-items:center}
+.ticket-photo{width:min(720px,90vw);aspect-ratio:1/1;margin:0;display:block;overflow:hidden;background:#eee;box-shadow:0 16px 40px rgba(0,0,0,.14)}
+.ticket-photo img{width:100%;height:100%;object-fit:cover;display:block}
+/* 票券式內凹圓角（純 CSS mask，支援 WebKit 與標準語法） */
+.ticket-photo{--cut:46px;-webkit-mask:radial-gradient(var(--cut) at 0 0,#0000 98%,#000 101%) top left,radial-gradient(var(--cut) at 100% 0,#0000 98%,#000 101%) top right,radial-gradient(var(--cut) at 100% 100%,#0000 98%,#000 101%) bottom right,radial-gradient(var(--cut) at 0 100%,#0000 98%,#000 101%) bottom left;-webkit-mask-size:51% 51%;-webkit-mask-repeat:no-repeat;mask:radial-gradient(var(--cut) at 0 0,#0000 98%,#000 101%) top left,radial-gradient(var(--cut) at 100% 0,#0000 98%,#000 101%) top right,radial-gradient(var(--cut) at 100% 100%,#0000 98%,#000 101%) bottom right,radial-gradient(var(--cut) at 0 100%,#0000 98%,#000 101%) bottom left;mask-size:51% 51%;mask-repeat:no-repeat}
+
+.about-page .about-intros{padding:10px 0 60px}
+.about-page .about-intros .inner{max-width:860px;margin:0 auto;padding:0 20px}
+.about-page .about-block{display:grid;gap:10px;text-align:center;margin:0 0 24px}
+.about-page .about-block h2{margin:0;font-size:clamp(22px,3.2vw,28px);font-weight:900;letter-spacing:.02em}
+.about-page .about-block p{margin:0;line-height:1.8;opacity:.92}
+/* REPLACE END — About page styles */
