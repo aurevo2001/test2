@@ -1,12 +1,20 @@
-<!doctype html><html lang="zh-Hant"><head>
-<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
-<meta name="color-scheme" content="light dark"/><title>About｜YourBrand</title>
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<meta name="color-scheme" content="light dark"/>
+<title>About｜YourBrand</title>
 <link rel="stylesheet" href="assets/styles.css"/>
 </head>
 <body class="about-page bg-layer">
+
   <!-- Header 與 index 相同（無 freelance） -->
   <header class="site-header"><div class="container">
-    <a class="logo-wrap" href="index.html" aria-label="回到首頁"><img class="logo-img" src="assets/logo.svg" alt="YourBrand"/><span class="logo-text">YourBrand</span></a>
+    <a class="logo-wrap" href="index.html" aria-label="回到首頁">
+      <img class="logo-img" src="assets/logo.svg" alt="YourBrand"/>
+      <span class="logo-text">YourBrand</span>
+    </a>
     <button class="nav-toggle" aria-label="menu">☰</button>
     <nav class="site-nav"><ul>
       <li><a href="index.html">Home</a></li>
@@ -19,7 +27,9 @@
 
   <!-- 票券式內凹角主圖（可直接換圖） -->
   <section class="about-hero section-full tight-top"><div class="inner">
-    <figure class="ticket-photo"><img src="assets/about-cover.jpg" alt="關於我主圖（請自行替換）"/></figure>
+    <figure class="ticket-photo">
+      <img src="assets/about-cover.jpg" alt="關於我主圖（請自行替換）"/>
+    </figure>
   </div></section>
 
   <!-- 文字介紹：兩個區塊（無按鈕） -->
@@ -34,7 +44,26 @@
     </article>
   </div></section>
 
-  <!-- Footer 與 index 相同：左文字、右 icons -->
+  <!-- 新增：學歷與獎項 -->
+  <section class="about-extra section-full"><div class="inner">
+    <div class="about-subblock">
+      <h2 class="about-heading">🎓 Education 學歷</h2>
+      <ul class="about-list">
+        <li><b>國立中央大學（National Central University）</b> — 經濟學系 B.A. <span class="about-year">2021–2025</span></li>
+        <li><b>Coursera／edX 線上進修</b> — Sustainability, Data Analytics, Web Design <span class="about-year">2022–2024</span></li>
+      </ul>
+    </div>
+    <div class="about-subblock">
+      <h2 class="about-heading">🏆 Awards 得獎紀錄</h2>
+      <ul class="about-list">
+        <li><b>中小企業創業競賽</b> — ESG 永續組 佳作 <span class="about-year">2025</span></li>
+        <li><b>校級創新提案競賽</b> — 優等獎 <span class="about-year">2024</span></li>
+        <li><b>綠色創業工作坊</b> — 優秀專案入選 <span class="about-year">2023</span></li>
+      </ul>
+    </div>
+  </div></section>
+
+  <!-- Footer 與 index 相同 -->
   <footer class="site-footer"><div class="container">
     <p class="footer-brand">@YourBrand</p>
     <div class="social-icons">
@@ -49,4 +78,5 @@
   </div></footer>
 
   <script src="assets/main.js"></script>
-</body></html>
+</body>
+</html>
