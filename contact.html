@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="color-scheme" content="light dark"/>
+  <title>Contact｜YourBrand</title>
+  <link rel="stylesheet" href="assets/styles.css"/>
+</head>
+
+<body class="contact-page bg-layer">
+  <!-- Header -->
+  <header class="site-header">
+    <div class="container">
+      <a class="logo-wrap" href="index.html" aria-label="回到首頁">
+        <img class="logo-img" src="assets/logo.svg" alt="YourBrand"/>
+        <span class="logo-text">YourBrand</span>
+      </a>
+      <button class="nav-toggle" aria-label="menu">☰</button>
+      <nav class="site-nav">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="portfolio.html">Portfolio</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="merch.html">Merch</a></li>
+          <li><a class="is-active" href="contact.html">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="contact-hero section-full">
+    <div class="inner narrow">
+      <h1>Contact</h1>
+      <p class="hero-sub">有合作、插畫委託、品牌/檔期諮詢，歡迎填寫表單或直接用右側方式聯絡我。</p>
+    </div>
+  </section>
+
+  <!-- Main -->
+  <section class="contact-main section-full">
+    <div class="inner">
+      <div class="contact-layout">
+
+        <!-- 表單 -->
+        <form class="contact-form"
+              action="https://formsubmit.co/g8882217@gmail.com"
+              method="POST" accept-charset="UTF-8" autocomplete="on" novalidate>
+          <!-- FormSubmit 參數 -->
+          <input type="text" name="_honey" style="display:none">
+          <input type="hidden" name="_captcha" value="false">
+          <input type="hidden" name="_subject" value="【網站表單】新聯絡訊息">
+          <input type="hidden" name="_next" value="https://你的網域/contact.html#ok">
+          <input type="hidden" name="_template" value="table">
+          <input type="hidden" name="_autoresponse" value="您好，您的訊息已收到，我會在 24–48 小時內回覆。">
+
+          <div class="grid">
+            <div class="field">
+              <label for="name">您的稱呼 *</label>
+              <input id="name" name="name" type="text" required placeholder="王小明 / Min Studio">
+            </div>
+            <div class="field">
+              <label for="email">Email *</label>
+              <input id="email" name="email" type="email" required placeholder="you@example.com">
+            </div>
+          </div>
+
+          <div class="grid">
+            <div class="field">
+              <label for="purpose">合作類型 *</label>
+              <select id="purpose" name="purpose" required>
+                <option value="" selected disabled>請選擇</option>
+                <option>商業合作（品牌/活動）</option>
+                <option>插畫委託（個人/企業）</option>
+                <option>視覺設計（包裝/海報/社群）</option>
+                <option>其他</option>
+              </select>
+              
+            </div>
+            <div class="field">
+              <label for="budget">預算範圍（選填）</label>
+              <select id="budget" name="budget">
+                <option value="" selected>尚未確定</option>
+                <option>NT$5,000–10,000</option>
+                <option>NT$10,000–30,000</option>
+                <option>NT$30,000–80,000</option>
+                <option>NT$80,000 以上</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="grid">
+            <div class="field">
+              <label for="deadline">期望檔期（選填）</label>
+              <input id="deadline" name="deadline" type="date">
+            </div>
+            <div class="field">
+              <label for="usage">主要用途（選填）</label>
+              <input id="usage" name="usage" type="text" placeholder="如：社群宣傳、商品包裝、展覽視覺…">
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="ref">參考連結（選填）</label>
+            <input id="ref" name="ref" type="url" placeholder="例如：https://www.behance.net/... 或雲端資料夾">
+          </div>
+
+          <div class="field">
+            <label for="subject">主旨 *</label>
+            <input id="subject" name="subject" type="text" required placeholder="插畫委託｜品牌 x 系列活動視覺">
+          </div>
+
+          <div class="field">
+            <label for="message">需求與內容描述 *</label>
+            <textarea id="message" name="message" rows="6" required placeholder="請簡述目的、風格方向、尺寸規格、輸出需求、檔期…"></textarea>
+            <span class="err">請簡述需求內容</span>
+          </div>
+
+          <div class="agree">
+            <label><input type="checkbox" name="consent" required>我同意將所填資料用於回覆本次詢問之聯絡。</label>
+            <span class="err">請勾選同意</span>
+          </div>
+
+          <div class="actions">
+            <button type="submit" class="btn-primary">送出訊息</button>
+          </div>
+
+          <p class="form-note ok" hidden>✅ 已送出！我會盡快回覆您，謝謝。</p>
+        </form>
+
+        <!-- 聯絡方式 -->
+        <aside class="contact-aside">
+          <h3>也可以這樣聯絡我</h3>
+          <ul class="contact-ways">
+            <li><b>電話</b>：<a href="tel:0966387953">0966-387-953</a></li>
+            <li><b>Email</b>：<a href="mailto:g8882217@gmail.com">g8882217@gmail.com</a></li>
+            <li><b>Instagram</b>：<a href="https://www.instagram.com/amin_art1201/" target="_blank">@amin_art1201</a></li>
+            <li><b>LINE ID</b>：<a href="https://line.me/R/ti/p/@corn871201" target="_blank">@corn871201</a></li>
+            <li><b>Behance</b>：<a href="https://www.behance.net/1c67871a" target="_blank">behance.net/1c67871a</a></li>
+          </ul>
+          <p class="small">回覆時間：工作日 24–48 小時內</p>
+        </aside>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <p class="footer-brand">@YourBrand</p>
+      <div class="social-icons">
+        <a class="icon-btn" href="https://www.instagram.com/amin_art1201/" target="_blank" aria-label="Instagram @amin_art1201"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3H7m9.75 2.5a1.25 1.25 0 1 1 0 2.5 1.25 1.25 0 0 1 0-2.5M12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10Z"/></svg></a>
+        <a class="icon-btn" href="mailto:g8882217@gmail.com"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2m0 4-8 5L4 8V6l8 5 8-5Z"/></svg></a>
+        <a class="icon-btn" href="https://line.me/R/ti/p/@corn871201" target="_blank" aria-label="LINE"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 3c-5 0-9 3.3-9 7.4 0 3 2.1 5.6 5.1 6.8-.07.8-.4 2.3-1.6 3 .0 0 2.1-.3 3.6-1.9.63.1 1.27.2 1.9.2 5 0 9-3.3 9-7.4S17 3 12 3Z"/></svg></a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
