@@ -249,3 +249,68 @@ p{line-height:1.75;margin:0 0 12px}
   .contact-layout{grid-template-columns:1fr}
   .contact-form .grid{grid-template-columns:1fr}
 }
+
+/* APPEND START — Mobile hardening (≤640px, 最高規格縮小版體驗) */
+@media (max-width:640px){
+  html,body{-webkit-text-size-adjust:100%}
+  .container{padding:0 16px}
+  /* Header */
+  .site-header{position:sticky;top:0;z-index:30;background:var(--c-header)}
+  .site-header .container{height:60px}
+  .logo-img{width:26px;height:26px}
+  .nav-toggle{display:inline-block}
+  .site-nav{position:fixed;inset:60px 0 0 0;background:var(--c-header);transform:translateY(-8px) scaleY(0);transform-origin:top;transition:.2s;box-shadow:0 12px 30px rgba(0,0,0,.24)}
+  .site-nav.open{transform:translateY(0) scaleY(1)}
+  .site-nav ul{flex-direction:column;padding:12px}
+  .site-nav a{padding:14px 16px;border-radius:10px;font-weight:700}
+  /* Hero（圖片改 4:3、文字縮放與留白） */
+  .hero.media-center img{aspect-ratio:4/3}
+  .hero.media-center .hero-overlay{padding:12px}
+  .hero.media-center .hero-title{font-size:clamp(18px,4.6vw,22px);padding:14px 16px;border-radius:12px}
+  /* Trio（首頁三圖） */
+  .trio{grid-template-columns:1fr;gap:10px}
+  .trio .tile{border-radius:16px}
+  .tile .cap{max-width:92%;bottom:10px;padding:10px 12px}
+  .tile .cap::before{clip-path:polygon(0 0,88% 0,96% 50%,88% 100%,0 100%)}
+  /* Gallery（統一單欄、字體可讀） */
+  .gallery,.portfolio-page .gallery{column-count:1;column-gap:8px}
+  .card-vert{margin:0 0 8px}
+  .card-vert figcaption,.portfolio-page .card-vert figcaption{font-size:14px;opacity:.95}
+  /* Party / 重點介紹區塊 */
+  .party-section{padding:48px 0 60px}
+  .oct{width:min(92vw,520px)}
+  .party p{font-size:15px;padding:10px 14px;border-radius:10px}
+  /* Portfolio Hero/分類列 */
+  .portfolio-page .pf-hero{padding:24px 0 12px}
+  .portfolio-page .pf-hero h1{font-size:clamp(26px,6.5vw,34px)}
+  .portfolio-page .cat-nav{gap:18px}
+  /* About */
+  .about-page .about-hero{padding:20px 0 12px}
+  .ticket-photo{width:92vw;--cut:38px}
+  .about-page .about-intros{padding:6px 0 40px}
+  .about-page .about-extra .inner{gap:36px}
+  /* Merch */
+  .merch-page .merch-hero .hero-media img{aspect-ratio:4/3}
+  .merch-page .merch-cta{flex-direction:column;gap:10px}
+  .merch-page .btn-cute{min-width:0;width:100%;text-align:center}
+  .merch-page .merch-grid{grid-template-columns:1fr;gap:12px}
+  .lightbox img{max-width:96vw;max-height:88vh}
+  /* Contact */
+  .contact-page .contact-hero{padding:26px 0 12px}
+  .contact-layout,.contact-form .grid{grid-template-columns:1fr}
+  .contact-form input,.contact-form select,.contact-form textarea{min-height:50px}
+  .contact-form .actions{flex-direction:column}
+  .contact-form .btn-primary,.contact-form .btn-secondary{width:100%;text-align:center}
+  /* Footer（觸控放大） */
+  .site-footer .container{gap:14px}
+  .social-icons{gap:12px}
+  .icon-btn{width:44px;height:44px}
+}
+/* 超小螢幕保護（≤360px）：字距縮放、間距再收斂 */
+@media (max-width:360px){
+  .hero.media-center .hero-title{font-size:16px}
+  .portfolio-page .pf-hero h1{font-size:24px}
+  .party p{font-size:14.5px}
+  .icon-btn{width:42px;height:42px}
+}
+/* APPEND END — Mobile hardening */
