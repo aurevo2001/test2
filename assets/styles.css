@@ -18,8 +18,9 @@ p{line-height:1.75;margin:0 0 12px}
 .bg-layer{background-color:#DACCC1;background-image:none;background-attachment:scroll}
 
 /* ===== Header（修復：補上背景色，確保各頁一致） ===== */
-.site-header{position:sticky;top:0;z-index:30;background:var(--c-header);color:#fff;box-shadow:0 6px 18px rgba(0,0,0,.12)}
-.site-header .container{display:flex;align-items:center;gap:12px;height:64px}
+.site-header{position:sticky;top:0;z-index:30;background:rgba(129,142,115,0.85);backdrop-filter:saturate(1.5) blur(8px);color:#fff;box-shadow:0 6px 18px rgba(0,0,0,.12)}
+.site-header .container{display:flex;align-items:center;justify-content:space-between;gap:12px;height:64px}
+.site-header.scrolled{background:rgba(129,142,115,0.95);}
 .logo-wrap{display:inline-flex;align-items:center;gap:10px;text-decoration:none}
 .logo-img{width:28px;height:28px;object-fit:contain;display:inline-block}
 .logo-text{color:#fff;text-decoration:none;font-weight:700;letter-spacing:.3px}
