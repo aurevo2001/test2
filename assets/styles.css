@@ -183,3 +183,36 @@ p{line-height:1.75;margin:0 0 12px}
   .merch-page .merch-grid{grid-template-columns:1fr}
 }
 /* REPLACE END — Merch final (with click-anywhere Lightbox) */
+/* REPAIR START — Global background continuity fix */
+/* 調整 section-full 讓背景不再被切斷 */
+.section-full{width:100%;margin:0 auto;transform:none}
+
+/* 修正 body.bg-layer 的背景固定邏輯 */
+body.bg-layer{
+  background-attachment:fixed;
+  background-repeat:no-repeat;
+  background-size:cover;
+  background-position:center top;
+}
+
+/* 將每個主要區塊透明化以露出底層漸層 */
+.hero,
+.trio-wrap,
+.party-section,
+.about-hero,
+.about-extra,
+.merch-hero,
+.pf-hero,
+.gallery-band,
+.site-footer{
+  background-color:transparent!important;
+}
+
+/* 確保整頁背景填滿，不留白邊 */
+html,body{
+  min-height:100%;
+  overflow-x:hidden;
+  background-color:#fff;
+}
+
+/* REPAIR END — Global background continuity fix */
