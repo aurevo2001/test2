@@ -3,7 +3,8 @@
 html,body{height:100%}
 body{margin:0;font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Noto Sans,Helvetica,Arial,"Apple Color Emoji","Segoe UI Emoji";color:var(--c-text);background:#fff}
 .container{max-width:1080px;margin-inline:auto;padding:0 20px}
-.section-full{width:100vw;margin:0;transform:translateX(calc(50vw - 50%))}
+/* 修正：避免背景斷層 */
+.section-full{width:100%;margin:0;transform:none}
 .section-full .inner{max-width:1080px;margin:0 auto;padding:0 20px}
 .narrow{max-width:860px}
 h1{font-size:clamp(28px,4vw,40px);margin:0 0 12px}
@@ -78,15 +79,11 @@ p{line-height:1.75;margin:0 0 12px}
 @media(max-width:640px){.nav-toggle{display:inline-block}.site-nav{position:fixed;inset:64px 0 auto 0;background:var(--c-header);transform:translateY(-8px) scaleY(0);transform-origin:top;transition:.2s;box-shadow:0 12px 30px rgba(0,0,0,.24)}.site-nav.open{transform:translateY(0) scaleY(1)}.site-nav ul{flex-direction:column;padding:12px}.site-nav a{padding:12px 14px;border-radius:8px}.gallery{column-count:1}}
 /* =========================
    assets/portfolio.css｜scope: .portfolio-page
-   功能：Portfolio Hero 大標、三個分類連結列、12張圖瀑布流區塊間距微調
    ========================= */
-/* 變數（沿用全域為主，這裡只補強分類色） */
 :root{--port-accent:#C57C2A}
-/* Hero｜大標題 */
-.portfolio-page .pf-hero{margin:0;padding:42px 0 28px;background:linear-gradient(180deg,rgba(255,255,255,0) 0%,rgba(255,245,238,.85) 100%)}
+.portfolio-page .pf-hero{margin:0;padding:42px 0 28px;background:transparent}
 .portfolio-page .pf-hero .inner{max-width:1080px;margin:0 auto;padding:0 20px;display:grid;place-items:center;text-align:center}
 .portfolio-page .pf-hero h1{font-size:clamp(34px,6vw,64px);letter-spacing:.06em;font-weight:800;color:#2a2a2a;margin:0}
-/* 分類連結列（3個可點擊，仿參考圖：大寫、金橘色、底線、~ 分隔） */
 .portfolio-page .cat-bar{padding:14px 0 10px}
 .portfolio-page .cat-nav{display:flex;flex-wrap:wrap;gap:26px;justify-content:center;align-items:center;font-weight:800;letter-spacing:.06em;text-transform:uppercase}
 .portfolio-page .cat-nav a{position:relative;color:var(--port-accent);text-decoration:none;padding:2px 0}
@@ -94,33 +91,25 @@ p{line-height:1.75;margin:0 0 12px}
 .portfolio-page .cat-nav a:hover::after{opacity:1;transform:scaleX(1.04)}
 .portfolio-page .cat-nav .sep{color:#000;opacity:.6;font-weight:900}
 .portfolio-page .cat-nav .is-active{color:color-mix(in srgb,var(--port-accent) 86%,#000 14%)}
-/* 12張圖瀑布流（沿用全域 .gallery 樣式，這裡只做版面留白與字級微調） */
 .portfolio-page .gallery-band{padding:6px 0 40px}
 .portfolio-page .gallery-band .inner{max-width:1080px;margin:0 auto;padding:0 20px}
 .portfolio-page .gallery{column-count:3;column-gap:10px}
 .portfolio-page .card-vert{margin:0 0 10px}
 .portfolio-page .card-vert figcaption{font-size:14px;opacity:.9}
-/* 與 header/hero 的縫隙控制（避免背景滲入） */
 .portfolio-page .tight-top{margin-top:0;padding-top:0;overflow:hidden}
-/* RWD */
 @media(max-width:980px){.portfolio-page .gallery{column-count:2}}
 @media(max-width:640px){.portfolio-page .pf-hero{padding:28px 0 18px}.portfolio-page .cat-nav{gap:18px}.portfolio-page .gallery{column-count:1}}
-
 /* REPLACE START — About page styles */
-.about-page .about-hero{margin:0;padding:28px 0 18px;background:linear-gradient(180deg,rgba(255,255,255,0) 0%,rgba(255,245,238,.85) 100%)}
+.about-page .about-hero{margin:0;padding:28px 0 18px;background:transparent}
 .about-page .about-hero .inner{max-width:1080px;margin:0 auto;padding:0 20px;display:grid;place-items:center}
 .ticket-photo{width:min(720px,90vw);aspect-ratio:1/1;margin:0;display:block;overflow:hidden;background:#eee;box-shadow:0 16px 40px rgba(0,0,0,.14)}
 .ticket-photo img{width:100%;height:100%;object-fit:cover;display:block}
-/* 票券式內凹圓角（純 CSS mask） */
 .ticket-photo{--cut:46px;-webkit-mask:radial-gradient(var(--cut) at 0 0,#0000 98%,#000 101%) top left,radial-gradient(var(--cut) at 100% 0,#0000 98%,#000 101%) top right,radial-gradient(var(--cut) at 100% 100%,#0000 98%,#000 101%) bottom right,radial-gradient(var(--cut) at 0 100%,#0000 98%,#000 101%) bottom left;-webkit-mask-size:51% 51%;-webkit-mask-repeat:no-repeat;mask:radial-gradient(var(--cut) at 0 0,#0000 98%,#000 101%) top left,radial-gradient(var(--cut) at 100% 0,#0000 98%,#000 101%) top right,radial-gradient(var(--cut) at 100% 100%,#0000 98%,#000 101%) bottom right,radial-gradient(var(--cut) at 0 100%,#0000 98%,#000 101%) bottom left;mask-size:51% 51%;mask-repeat:no-repeat}
-
 .about-page .about-intros{padding:10px 0 60px}
 .about-page .about-intros .inner{max-width:860px;margin:0 auto;padding:0 20px}
 .about-page .about-block{display:grid;gap:10px;text-align:center;margin:0 0 24px}
 .about-page .about-block h2{margin:0;font-size:clamp(22px,3.2vw,28px);font-weight:900;letter-spacing:.02em}
 .about-page .about-block p{margin:0;line-height:1.8;opacity:.92}
-
-/* 新增：Education & Awards */
 .about-page .about-extra{background:rgba(255,255,255,.88);padding:56px 0 80px}
 .about-page .about-extra .inner{max-width:880px;margin:0 auto;padding:0 20px;display:grid;gap:56px}
 .about-page .about-subblock{}
@@ -129,13 +118,8 @@ p{line-height:1.75;margin:0 0 12px}
 .about-page .about-list li{background:rgba(255,245,238,.75);border:1px solid rgba(0,0,0,.06);border-radius:12px;padding:12px 16px;box-shadow:0 6px 16px rgba(0,0,0,.06);font-size:15px;line-height:1.7}
 .about-page .about-list b{font-weight:700;color:#2e2e2e}
 .about-page .about-year{display:inline-block;margin-left:8px;font-weight:600;color:rgba(63,81,96,.9);font-size:13.5px}
-
-@media(max-width:640px){
-  .about-page .about-extra .inner{gap:40px}
-  .about-page .about-heading{font-size:21px}
-}
+@media(max-width:640px){.about-page .about-extra .inner{gap:40px}.about-page .about-heading{font-size:21px}}
 /* REPLACE END — About page styles */
-
 /* REPLACE START — Merch final (with click-anywhere Lightbox) */
 .merch-page .merch-hero{margin:0;padding:0;background:none}
 .merch-page .merch-hero.media-center{position:relative}
@@ -153,7 +137,6 @@ p{line-height:1.75;margin:0 0 12px}
 .merch-page .btn-cute:hover{transform:translateY(-1px);box-shadow:0 14px 26px rgba(0,0,0,.2),inset 0 0 16px rgba(255,255,255,.38)}
 .merch-page .btn-cute.line{background:linear-gradient(135deg,#00c300,#2ecc71)}
 .merch-page .btn-cute.ship{background:linear-gradient(135deg,#ff8a00,#ffb84d)}
-
 .merch-page .merch-list{padding:16px 0 46px}
 .merch-page .merch-list .inner{max-width:1080px;margin:0 auto;padding:0 20px}
 .merch-page .merch-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
@@ -163,56 +146,12 @@ p{line-height:1.75;margin:0 0 12px}
 .merch-page .merch-card .zoom:hover img{transform:scale(1.04)}
 .merch-page .merch-card .name{margin:2px 0 0;font-size:16px}
 .merch-page .merch-card .desc{margin:0;opacity:.85}
-
-/* 可愛雙按鈕（LINE 貼圖區塊保留） */
 .merch-page .cute-cta{display:flex;gap:12px;justify-content:center;margin:18px 0 2px}
-
-/* Lightbox：點擊圖片放大，再點任意處關閉 */
 .lightbox{position:fixed;inset:0;display:none;z-index:100;background:rgba(0,0,0,.85);cursor:zoom-out}
 .lightbox:target{display:block}
 .lightbox .close{position:absolute;inset:0;display:block;z-index:2;text-decoration:none}
 .lightbox img{position:relative;z-index:1;max-width:min(92vw,1400px);max-height:90vh;width:auto;height:auto;display:block;margin:auto;box-shadow:0 10px 40px rgba(0,0,0,.5);border-radius:10px;background:#fff}
 .lightbox .close::after{content:"✕";position:absolute;top:14px;right:18px;color:#fff;font-size:24px;opacity:.9}
-
-/* RWD */
 @media(max-width:980px){.merch-page .merch-grid{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:640px){
-  .merch-page .merch-hero .hero-media img{aspect-ratio:4/3}
-  .merch-page .merch-cta{flex-direction:column}
-  .merch-page .cute-cta{flex-direction:column}
-  .merch-page .merch-grid{grid-template-columns:1fr}
-}
+@media(max-width:640px){.merch-page .merch-hero .hero-media img{aspect-ratio:4/3}.merch-page .merch-cta{flex-direction:column}.merch-page .cute-cta{flex-direction:column}.merch-page .merch-grid{grid-template-columns:1fr}}
 /* REPLACE END — Merch final (with click-anywhere Lightbox) */
-/* REPAIR START — Global background continuity fix */
-/* 調整 section-full 讓背景不再被切斷 */
-.section-full{width:100%;margin:0 auto;transform:none}
-
-/* 修正 body.bg-layer 的背景固定邏輯 */
-body.bg-layer{
-  background-attachment:fixed;
-  background-repeat:no-repeat;
-  background-size:cover;
-  background-position:center top;
-}
-
-/* 將每個主要區塊透明化以露出底層漸層 */
-.hero,
-.trio-wrap,
-.party-section,
-.about-hero,
-.about-extra,
-.merch-hero,
-.pf-hero,
-.gallery-band,
-.site-footer{
-  background-color:transparent!important;
-}
-
-/* 確保整頁背景填滿，不留白邊 */
-html,body{
-  min-height:100%;
-  overflow-x:hidden;
-  background-color:#fff;
-}
-
-/* REPAIR END — Global background continuity fix */
