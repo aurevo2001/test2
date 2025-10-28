@@ -17,6 +17,15 @@ p{line-height:1.75;margin:0 0 12px}
   background-image:none;
   background-attachment:scroll;
 }
+body.bg-layer{position:relative;z-index:0}
+.site-header{
+  position:sticky;
+  top:0;
+  z-index:30;
+  background:var(--c-header); /* ← 這行會讓 header 顏色恢復 */
+  color:#fff;
+  box-shadow:0 6px 18px rgba(0,0,0,.12);
+}
 .site-header .container{display:flex;align-items:center;gap:12px;height:64px}
 .logo-wrap{display:inline-flex;align-items:center;gap:10px;text-decoration:none}
 .logo-img{width:28px;height:28px;object-fit:contain;display:inline-block}
