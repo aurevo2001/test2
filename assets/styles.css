@@ -352,3 +352,56 @@ p{line-height:1.75;margin:0 0 12px}
 @media(max-width:980px){.project-grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:640px){.personal-photo{width:min(380px,90vw)}.project-grid{grid-template-columns:1fr}}
 /* REPLACE END — Personal page advanced v2 */
+
+/* REPLACE START — Fatism 專用最終覆寫(放在 styles.css 最底) */
+/* 1) Hero 與 personal 一致且與 header 拉開 */
+.fatism-page .fatism-hero{padding:48px 0 24px;background:transparent}
+.fatism-page .fatism-hero .inner{max-width:1080px;margin:0 auto;padding:0 20px;display:grid;place-items:center;text-align:center}
+.fatism-page .ticket-photo{width:min(520px,78vw);aspect-ratio:1/1;margin:8px 0 0;display:block;overflow:hidden;background:#eee;box-shadow:0 16px 40px rgba(0,0,0,.14)}
+.fatism-page .ticket-photo img{width:100%;height:100%;object-fit:cover;display:block}
+.fatism-page .ticket-photo{--cut:42px;-webkit-mask:radial-gradient(var(--cut) at 0 0,#0000 98%,#000 101%) top left,radial-gradient(var(--cut) at 100% 0,#0000 98%,#000 101%) top right,radial-gradient(var(--cut) at 100% 100%,#0000 98%,#000 101%) bottom right,radial-gradient(var(--cut) at 0 100%,#0000 98%,#000 101%) bottom left;-webkit-mask-size:51% 51%;-webkit-mask-repeat:no-repeat;mask:radial-gradient(var(--cut) at 0 0,#0000 98%,#000 101%) top left,radial-gradient(var(--cut) at 100% 0,#0000 98%,#000 101%) top right,radial-gradient(var(--cut) at 100% 100%,#0000 98%,#000 101%) bottom right,radial-gradient(var(--cut) at 0 100%,#0000 98%,#000 101%) bottom left;mask-size:51% 51%;mask-repeat:no-repeat}
+.fatism-page .fatism-title{margin:20px 0 8px;font-size:clamp(26px,4vw,34px);font-weight:900;letter-spacing:.05em}
+.fatism-page .fatism-desc{max-width:680px;line-height:1.8;opacity:.9}
+
+/* 2) 插畫/影片卡網格與 hover */
+.fatism-page .project-section{padding:28px 0}
+.fatism-page .project-section .inner{max-width:1080px;margin:0 auto;padding:0 20px}
+.fatism-page .project-head{text-align:center;margin-bottom:18px}
+.fatism-page .project-heading{font-size:clamp(22px,3.2vw,28px);font-weight:900;letter-spacing:.02em;margin:0}
+.fatism-page .project-sub{margin:4px 0 0;opacity:.75}
+.fatism-page .project-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.fatism-page .video-grid{grid-template-columns:repeat(3,1fr)}
+.fatism-page .project-card{position:relative;border-radius:14px;overflow:hidden;background:rgba(255,255,255,.8);box-shadow:0 10px 20px rgba(0,0,0,.1)}
+.fatism-page .project-card img,.fatism-page .project-card video{width:100%;height:100%;object-fit:cover;transition:transform .3s ease}
+.fatism-page .project-card:hover img,.fatism-page .project-card:hover video{transform:scale(1.05)}
+.fatism-page .project-info{position:absolute;left:0;right:0;bottom:0;padding:8px 10px;background:rgba(0,0,0,.45);color:#fff;text-align:center;font-size:.9rem;opacity:0;transition:opacity .25s ease}
+.fatism-page .project-card:hover .project-info{opacity:1}
+
+/* 3) 影片 CTA 三顆按鈕：置中且與 footer 保持固定距離 */
+.fatism-page .video-cta{display:flex;justify-content:center;align-items:center;gap:14px;flex-wrap:wrap;margin:22px 0}
+.fatism-page .video-cta .pill-btn{display:inline-block;min-width:200px;padding:12px 22px;border-radius:999px;font-weight:900;letter-spacing:.02em;text-decoration:none;color:#fff;box-shadow:0 10px 20px rgba(0,0,0,.15),inset 0 0 12px rgba(255,255,255,.28);transition:transform .18s ease,box-shadow .18s ease}
+.fatism-page .video-cta .pill-btn:hover{transform:translateY(-1px);box-shadow:0 14px 26px rgba(0,0,0,.2),inset 0 0 16px rgba(255,255,255,.36)}
+.fatism-page .video-cta .btn-line{background:linear-gradient(135deg,#00c300,#22cc88)}
+.fatism-page .video-cta .btn-ship{background:linear-gradient(135deg,#ff8a00,#ffb84d)}
+.fatism-page .video-cta .btn-merch{background:linear-gradient(135deg,var(--c-header),color-mix(in srgb,var(--c-header) 65%,#fff 25%))}
+
+/* 4) CTA 與 footer 的距離（不會太近也不會太遠） */
+.fatism-page #video .inner{padding-bottom:26px}
+
+/* 5) Footer 滿版貼齊，移除底部多餘空白 */
+.site-footer{position:relative;margin:0;background:var(--c-footer);color:#fff}
+.site-footer::before{content:"";position:absolute;inset:0;left:50%;right:50%;margin-left:-50vw;margin-right:-50vw;background:inherit;z-index:-1}
+.site-footer .container{max-width:1080px;margin-inline:auto;padding:18px 20px;display:flex;flex-wrap:wrap;align-items:center;gap:12px;justify-content:space-between}
+html,body{margin:0;padding:0;overflow-x:hidden}
+
+/* 6) RWD 與 Hero 間距（手機縮小 hero、保留與 header 的距離） */
+@media(max-width:1080px){.fatism-page .project-grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:980px){.fatism-page .project-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:640px){
+  .fatism-page .fatism-hero{padding:28px 0 18px}
+  .fatism-page .ticket-photo{width:min(440px,90vw);--cut:34px}
+  .fatism-page .project-grid,.fatism-page .video-grid{grid-template-columns:1fr}
+  .fatism-page .video-cta{gap:10px}
+  .fatism-page .video-cta .pill-btn{min-width:unset;width:100%;text-align:center}
+}
+/* REPLACE END — Fatism 專用最終覆寫 */
