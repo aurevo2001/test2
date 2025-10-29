@@ -315,8 +315,3 @@ p{line-height:1.75;margin:0 0 12px}
   .icon-btn{width:42px;height:42px}
 }
 /* APPEND END — Mobile hardening */
-/* REPLACE START — Floating stickers canvas */
-#floating-stickers{position:fixed;inset:0;z-index:0;pointer-events:none;display:block}
-/* 讓主要內容確保在畫布之上（如需）： */
-main,.container,.section-full,.party-section{position:relative;z-index:1}
-/* REPLACE END — Floating stickers canvas */
