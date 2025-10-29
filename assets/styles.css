@@ -315,3 +315,40 @@ p{line-height:1.75;margin:0 0 12px}
   .icon-btn{width:42px;height:42px}
 }
 /* APPEND END — Mobile hardening */
+
+/* REPLACE START — Personal page advanced v2 */
+/* ✅ 讓 Hero 不再緊貼 header（上方留距離） */
+.personal-page .personal-hero{margin-top:60px;padding:24px 0 16px;background:transparent}
+
+/* ✅ Hero 區塊（縮小票券框比例） */
+.personal-page .personal-hero .inner{max-width:1080px;margin:0 auto;padding:0 20px;display:grid;place-items:center;text-align:center}
+.personal-photo{width:min(460px,78vw);aspect-ratio:1/1;margin:0 auto 18px;display:block;overflow:hidden;background:#ffa500;position:relative;box-shadow:0 12px 28px rgba(0,0,0,.12)}
+.personal-photo{--cut:38px;-webkit-mask:radial-gradient(var(--cut) at 0 0,#0000 98%,#000 101%) top left,radial-gradient(var(--cut) at 100% 0,#0000 98%,#000 101%) top right,radial-gradient(var(--cut) at 100% 100%,#0000 98%,#000 101%) bottom right,radial-gradient(var(--cut) at 0 100%,#0000 98%,#000 101%) bottom left;-webkit-mask-size:51% 51%;-webkit-mask-repeat:no-repeat;mask:radial-gradient(var(--cut) at 0 0,#0000 98%,#000 101%) top left,radial-gradient(var(--cut) at 100% 0,#0000 98%,#000 101%) top right,radial-gradient(var(--cut) at 100% 100%,#0000 98%,#000 101%) bottom right,radial-gradient(var(--cut) at 0 100%,#0000 98%,#000 101%) bottom left;mask-size:51% 51%;mask-repeat:no-repeat}
+.personal-photo img{width:100%;height:100%;object-fit:cover;display:block}
+.personal-title{font-size:clamp(28px,4.6vw,50px);font-weight:900;margin:6px 0;color:#3b3b3b}
+.personal-desc{max-width:680px;margin:0 auto 36px;line-height:1.85;font-size:16px;opacity:.9;background:rgba(255,255,255,.6);padding:10px 18px;border-radius:12px;box-shadow:0 6px 14px rgba(0,0,0,.05)}
+
+/* ✅ Project 區塊維持原背景，但新增浮動資訊與動畫 */
+.personal-projects{padding:60px 0 80px}
+.personal-projects .inner{max-width:1080px;margin:0 auto;padding:0 20px}
+.project-heading{text-align:center;font-size:clamp(24px,3vw,32px);font-weight:900;margin:0 0 28px;color:#3b3b3b;position:relative}
+.project-heading::after{content:"";display:block;width:80px;height:6px;margin:10px auto 0;background:linear-gradient(90deg,var(--c-header,#444),#c9b5a0);border-radius:999px;opacity:.8}
+.project-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+
+/* 卡片設計 */
+.project-card{position:relative;overflow:hidden;border-radius:16px;background:rgba(255,255,255,.9);box-shadow:0 8px 20px rgba(0,0,0,.08);transition:transform .35s ease,box-shadow .35s ease,filter .35s ease}
+.project-card img{width:100%;height:auto;display:block;transition:transform .45s ease;object-fit:cover}
+.project-overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 60%,rgba(0,0,0,.55) 100%);opacity:0;transition:opacity .4s ease}
+.project-info{position:absolute;bottom:-60px;left:0;right:0;padding:20px;text-align:center;color:#fff;transition:bottom .35s ease,opacity .35s ease;opacity:0}
+.project-info h3{font-size:18px;font-weight:700;margin:0 0 6px}
+.project-info p{font-size:14px;opacity:.85;margin:0}
+
+/* Hover 動畫 */
+.project-card:hover{transform:translateY(-6px) scale(1.03);box-shadow:0 14px 40px rgba(0,0,0,.16);filter:saturate(1.1)}
+.project-card:hover img{transform:scale(1.08)}
+.project-card:hover .project-overlay{opacity:1}
+.project-card:hover .project-info{bottom:12px;opacity:1}
+
+@media(max-width:980px){.project-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:640px){.personal-photo{width:min(380px,90vw)}.project-grid{grid-template-columns:1fr}}
+/* REPLACE END — Personal page advanced v2 */
