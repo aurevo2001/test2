@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<meta name="color-scheme" content="light dark"/>
+<title>Business｜作品集</title>
+<link rel="stylesheet" href="assets/styles.css"/>
+</head>
+<body class="business-page bg-layer">
+
+  <!-- Header（與其他頁相同） -->
+  <header class="site-header"><div class="container">
+    <a class="logo-wrap" href="index.html" aria-label="回到首頁">
+      <img class="logo-img" src="assets/logo.svg" alt="Business Logo"/>
+      <span class="logo-text">Business</span>
+    </a>
+    <button class="nav-toggle" aria-label="menu">☰</button>
+    <nav class="site-nav"><ul>
+      <li><a href="index.html">首頁</a></li>
+      <li><a href="portfolio.html">作品</a></li>
+      <li><a href="about.html">關於我</a></li>
+      <li><a href="merch.html">週邊</a></li>
+      <li><a href="contact.html">聯絡</a></li>
+    </ul></nav>
+  </div></header>
+
+  <!-- Hero（與個人/ fatism 同版型：票券式主圖 + 標題 + 說明） -->
+  <section class="fatism-hero section-full tight-top"><!-- 直接沿用 fatism hero 樣式 -->
+    <div class="inner" style="text-align:center">
+      <figure class="ticket-photo">
+        <!-- 替換為你的主圖 -->
+        <img src="images/business_hero.jpg" alt="Business 主視覺（可自行替換）"/>
+      </figure>
+      <h1 class="fatism-title">Business Studio</h1>
+      <p class="fatism-desc">商業專案精選｜以完整視覺與敘事呈現品牌價值與活動現場。</p>
+    </div>
+  </section>
+
+  <!-- 圖片瀑布流區（15 張，不裁切、依原尺寸比例自適應，整齊排列） -->
+  <section class="project-section section-full" id="gallery"><div class="inner">
+    <header class="project-head">
+      <h2 class="project-heading">商業攝影・活動紀錄・品牌視覺</h2>
+      <p class="project-sub">15 張圖片，支援點擊放大預覽（Lightbox）</p>
+    </header>
+
+    <!-- 使用既有的 masonry 樣式：.gallery + .card-vert（你的 styles.css 已內建）
+         重點：img 使用 width:100% + height:auto，不會裁切、維持原比例。
+    -->
+    <div class="gallery">
+      <figure class="card-vert"><a href="#bx-01"><img src="images/b01.jpg" alt="Business 01"/></a><figcaption>Business 01</figcaption></figure>
+      <figure class="card-vert"><a href="#bx-02"><img src="images/b02.jpg" alt="Business 02"/></a><figcaption>Business 02</figcaption></figure>
+      <figure class="card-vert"><a href="#bx-03"><img src="images/b03.jpg" alt="Business 03"/></a><figcaption>Business 03</figcaption></figure>
+      <figure class="card-vert"><a href="#bx-04"><img src="images/b04.jpg" alt="Business 04"/></a><figcaption>Business 04</figcaption></figure>
+      <figure class="card-vert"><a href="#bx-05"><img src="images/b05.jpg" alt="Business 05"/></a><figcaption>Business 05</figcaption></figure>
+      <figure class="card-vert"><a href="#bx-06"><img src="images/b06.jpg" alt="Business 06"/></a><figcaption>Business 06</figcaption></figure>
+      <figure class="card-vert"><a href="#bx-07"><img src="images/b07.jpg" alt="Business 07"/></a><figcaption>Business 07</figcaption></figure>
+      <figure class="card-vert"><a href="#bx-08"><img src="images/b08.jpg" alt="Business 08"/></a><figcaption>Business 08</figcaption></figure>
+      <figure class="card-vert"><a href="#bx-09"><img src="images/b09.jpg" alt="Business 09"/></a><figcaption>Business 09</figcaption></figure>
+      <figure class="card-vert"><a href="#bx-10"><img src="images/b10.jpg" alt="Business 10"/></a><figcaption>Business 10</figcaption></figure>
+      <figure class="card-vert"><a href="#bx-11"><img src="images/b11.jpg" alt="Business 11"/></a><figcaption>Business 11</figcaption></figure>
+      <figure class="card-vert"><a href="#bx-12"><img src="images/b12.jpg" alt="Business 12"/></a><figcaption>Business 12</figcaption></figure>
+      <figure class="card-vert"><a href="#bx-13"><img src="images/b13.jpg" alt="Business 13"/></a><figcaption>Business 13</figcaption></figure>
+      <figure class="card-vert"><a href="#bx-14"><img src="images/b14.jpg" alt="Business 14"/></a><figcaption>Business 14</figcaption></figure>
+      <figure class="card-vert"><a href="#bx-15"><img src="images/b15.jpg" alt="Business 15"/></a><figcaption>Business 15</figcaption></figure>
+    </div>
+  </div></section>
+
+  <!-- Lightbox（15 張） -->
+  <figure id="bx-01" class="lightbox"><a class="close" href="#"></a><img src="images/b01.jpg" alt="Business 01 放大"/></figure>
+  <figure id="bx-02" class="lightbox"><a class="close" href="#"></a><img src="images/b02.jpg" alt="Business 02 放大"/></figure>
+  <figure id="bx-03" class="lightbox"><a class="close" href="#"></a><img src="images/b03.jpg" alt="Business 03 放大"/></figure>
+  <figure id="bx-04" class="lightbox"><a class="close" href="#"></a><img src="images/b04.jpg" alt="Business 04 放大"/></figure>
+  <figure id="bx-05" class="lightbox"><a class="close" href="#"></a><img src="images/b05.jpg" alt="Business 05 放大"/></figure>
+  <figure id="bx-06" class="lightbox"><a class="close" href="#"></a><img src="images/b06.jpg" alt="Business 06 放大"/></figure>
+  <figure id="bx-07" class="lightbox"><a class="close" href="#"></a><img src="images/b07.jpg" alt="Business 07 放大"/></figure>
+  <figure id="bx-08" class="lightbox"><a class="close" href="#"></a><img src="images/b08.jpg" alt="Business 08 放大"/></figure>
+  <figure id="bx-09" class="lightbox"><a class="close" href="#"></a><img src="images/b09.jpg" alt="Business 09 放大"/></figure>
+  <figure id="bx-10" class="lightbox"><a class="close" href="#"></a><img src="images/b10.jpg" alt="Business 10 放大"/></figure>
+  <figure id="bx-11" class="lightbox"><a class="close" href="#"></a><img src="images/b11.jpg" alt="Business 11 放大"/></figure>
+  <figure id="bx-12" class="lightbox"><a class="close" href="#"></a><img src="images/b12.jpg" alt="Business 12 放大"/></figure>
+  <figure id="bx-13" class="lightbox"><a class="close" href="#"></a><img src="images/b13.jpg" alt="Business 13 放大"/></figure>
+  <figure id="bx-14" class="lightbox"><a class="close" href="#"></a><img src="images/b14.jpg" alt="Business 14 放大"/></figure>
+  <figure id="bx-15" class="lightbox"><a class="close" href="#"></a><img src="images/b15.jpg" alt="Business 15 放大"/></figure>
+
+  <!-- Footer（與其他頁一致，7 個 icon） -->
+  <footer class="site-footer"><div class="container">
+    <p class="footer-brand">© 2025 Business. All rights reserved.</p>
+    <div class="social-icons">
+      <a class="icon-btn" href="https://www.instagram.com/amin_art1201/" target="_blank" rel="noopener" aria-label="Instagram @amin_art1201"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3H7m9.75 2.5a1.25 1.25 0 1 1 0 2.5 1.25 1.25 0 0 1 0-2.5M12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10m0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6Z"/></svg></a>
+      <a class="icon-btn" href="https://www.instagram.com/fatism_1201/" target="_blank" rel="noopener" aria-label="Instagram @fatism_1201"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3H7m9.75 2.5a1.25 1.25 0 1 1 0 2.5 1.25 1.25 0 0 1 0-2.5M12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10m0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6Z"/></svg></a>
+      <a class="icon-btn" href="https://www.behance.net/1c67871a" target="_blank" rel="noopener" aria-label="Behance"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M18.7 10.6h-3.5c.2-1.1.9-1.8 2.1-1.8 1.2 0 1.8.5 1.9 1.8h-.5zM21 12.2c0-3.2-1.5-3.8-3.9-3.8-2.3 0-3.9 1.5-3.9 4.1 0 2.7 1.6 4.1 4.1 4.1 1.8 0 3.2-.9 3.7-2.4h-2c-.2.5-.9.8-1.7.8-1.1 0-1.8-.6-2-1.8H21c.1-.4.1-.7.1-1zM10.3 13.6c0 1.1-.9 1.7-2.1 1.7H5.5V12h2.6c1.1 0 2.2.4 2.2 1.6zM8.1 8.5H2v9h6c2.2 0 3.9-1.1 3.9-3.3 0-1.3-.8-2.4-2-2.8 1-.4 1.6-1.2 1.6-2.3 0-1.8-1.4-2.6-3.4-2.6z"/></svg></a>
+      <a class="icon-btn" href="mailto:g8882217@gmail.com" aria-label="Gmail"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2m0 4-8 5L4 8V6l8 5 8-5Z"/></svg></a>
+      <a class="icon-btn" href="https://line.me/R/ti/p/@corn871201" target="_blank" rel="noopener" aria-label="LINE corn871201"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 3c-5 0-9 3.3-9 7.4 0 3 2.1 5.6 5.1 6.8-.07.8-.4 2.3-1.6 3 0 0 2.1-.3 3.6-1.9.63.1 1.27.2 1.9.2 5 0 9-3.3 9-7.4S17 3 12 3Z"/></svg></a>
+      <a class="icon-btn" href="https://store.line.me/stickershop/author/1836222/zh-Hant" target="_blank" rel="noopener" aria-label="LINE Store"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M4 4h16v16H4z"/></svg></a>
+      <a class="icon-btn" href="https://myship.7-11.com.tw/general/detail/GM2407220052394" target="_blank" rel="noopener" aria-label="7-11 賣貨便"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" fill="currentColor"/></svg></a>
+    </div>
+  </div></footer>
+
+  <script src="assets/main.js"></script>
+</body>
+</html>
