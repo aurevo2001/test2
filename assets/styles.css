@@ -405,3 +405,30 @@ html,body{margin:0;padding:0;overflow-x:hidden}
   .fatism-page .video-cta .pill-btn{min-width:unset;width:100%;text-align:center}
 }
 /* REPLACE END — Fatism 專用最終覆寫 */
+
+/* PATCH — 讓 business 頁也吃到與 fatism 相同的 hero 規格 */
+.business-page .fatism-hero{padding:60px 0 24px;background:transparent}
+.business-page .fatism-hero .inner{max-width:1080px;margin:0 auto;padding:0 20px;display:grid;place-items:center;text-align:center}
+.business-page .ticket-photo{width:min(520px,78vw);aspect-ratio:1/1;margin:8px 0 0;display:block;overflow:hidden;background:#eee;box-shadow:0 16px 40px rgba(0,0,0,.14)}
+.business-page .ticket-photo img{width:100%;height:100%;object-fit:cover;display:block}
+/* 票券內凹角 */
+.business-page .ticket-photo{--cut:42px;-webkit-mask:radial-gradient(var(--cut) at 0 0,#0000 98%,#000 101%) top left,radial-gradient(var(--cut) at 100% 0,#0000 98%,#000 101%) top right,radial-gradient(var(--cut) at 100% 100%,#0000 98%,#000 101%) bottom right,radial-gradient(var(--cut) at 0 100%,#0000 98%,#000 101%) bottom left;-webkit-mask-size:51% 51%;-webkit-mask-repeat:no-repeat;mask:radial-gradient(var(--cut) at 0 0,#0000 98%,#000 101%) top left,radial-gradient(var(--cut) at 100% 0,#0000 98%,#000 101%) top right,radial-gradient(var(--cut) at 100% 100%,#0000 98%,#000 101%) bottom right,radial-gradient(var(--cut) at 0 100%,#0000 98%,#000 101%) bottom left;mask-size:51% 51%;mask-repeat:no-repeat}
+/* PATCH — Business 圖卡 hover 動效，對齊 fatism 風格 */
+.business-page .gallery{column-gap:10px}
+.business-page .card-vert{position:relative;overflow:hidden;border-radius:14px;background:rgba(255,255,255,.78);box-shadow:0 10px 20px rgba(0,0,0,.1);transition:transform .25s ease, box-shadow .25s ease;break-inside:avoid-column;margin:0 0 10px}
+.business-page .card-vert:hover{transform:translateY(-2px);box-shadow:0 14px 28px rgba(0,0,0,.16)}
+
+/* 圖片微放大 */
+.business-page .card-vert img{display:block;width:100%;height:auto;object-fit:contain;transition:transform .28s ease}
+.business-page .card-vert:hover img{transform:scale(1.04)}
+
+/* 暗罩（不擋點擊） */
+.business-page .card-vert::after{content:"";position:absolute;inset:0;background:rgba(0,0,0,.45);opacity:0;transition:opacity .25s ease;pointer-events:none}
+.business-page .card-vert:hover::after{opacity:1}
+
+/* 浮現標題（沿用你 <figcaption> 當資訊條） */
+.business-page .card-vert figcaption{position:absolute;left:0;right:0;bottom:8px;z-index:2;text-align:center;color:#fff;font-weight:800;font-size:.95rem;line-height:1.3;padding:8px 10px;opacity:0;transform:translateY(6px);transition:opacity .25s ease, transform .25s ease;pointer-events:none}
+.business-page .card-vert:hover figcaption{opacity:1;transform:translateY(0)}
+
+/* 如果有 <a> 包住圖片，確保可點進 lightbox */
+.business-page .card-vert a{display:block;position:relative;z-index:1;text-decoration:none;color:inherit}
