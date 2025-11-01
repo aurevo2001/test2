@@ -8,7 +8,7 @@ const header=$('.site-header'),toggle=$('.nav-toggle'),nav=$('.site-nav');if(tog
 const y=$('#y');if(y){y.textContent=new Date().getFullYear();}
 // ===== Contact 表單訊息（示範）=====
 const form=$('.form');if(form){form.addEventListener('submit',()=>{$('.form-tip',form).textContent='已收到訊息（示範：此頁不會實際送出）。'})}
-// REPLACE END: /assets/main.js
+// REPLACE END: /assets/main.js 
 // APPEND START — 關燈箱即停止並重置影片，下次可重播
 function resetLightboxVideos(){document.querySelectorAll('.lightbox video').forEach(v=>{if(!v.paused){v.pause();}v.currentTime=0;});}
 window.addEventListener('hashchange',resetLightboxVideos);
