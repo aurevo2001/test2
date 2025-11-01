@@ -9,7 +9,7 @@ const y=$('#y');if(y){y.textContent=new Date().getFullYear();}
 // ===== Contact 表單訊息（示範）=====
 const form=$('.form');if(form){form.addEventListener('submit',()=>{$('.form-tip',form).textContent='已收到訊息（示範：此頁不會實際送出）。'})}
 // REPLACE END: /assets/main.js 
- 
+  
 /* PATCH START — Lightbox video pause on close */
 (function(){
   const pauseAll=()=>document.querySelectorAll('.lightbox video').forEach(v=>{v.pause();try{v.currentTime=0;}catch(e){}});
