@@ -138,10 +138,10 @@
       </div>
     </div>
   </footer>
-<!-- REPLACE START — Neon Signature (index.html 單檔版) -->
+<!-- REPLACE START — Neon 筆畫入場動畫（完整可運行） -->
 <div id="neon-signature-mount"></div>
 <style>
-#neon-signature{position:fixed;inset:0;z-index:99998;display:grid;place-items:center;background:rgba(0,0,0,.55);backdrop-filter:blur(2px);transition:opacity .5s ease}
+#neon-signature{position:fixed;inset:0;z-index:99998;display:grid;place-items:center;background:rgba(0,0,0,.55);backdrop-filter:blur(2px);transition:opacity .6s ease}
 #neon-signature.hide{opacity:0;pointer-events:none}
 .neon-wrap{display:flex;gap:20px;align-items:center;justify-content:center;padding:18px}
 .neon-char{width:min(28vw,220px);height:min(28vw,220px);filter:drop-shadow(0 0 4px #00fff0) drop-shadow(0 0 10px #47a6ff) drop-shadow(0 0 18px #b46bff)}
@@ -149,30 +149,35 @@
 @media(max-width:640px){.neon-wrap{gap:12px}.neon-char{width:28vw;height:28vw}}
 @keyframes neonFlicker{0%,100%{opacity:1}48%{opacity:.96}50%{opacity:.9}52%{opacity:.98}70%{opacity:.94}}
 </style>
-<script src="https://unpkg.com/hanzi-writer@3.6.0/dist/hanzi-writer.min.js"></script>
+<!-- ✅ 本地 CDN -->
+<script src="https://cdn.jsdelivr.net/npm/hanzi-writer@3.6.0/dist/hanzi-writer.min.js"></script>
 <script>
 (function(){
   const SPEED=0.8, CHARS=['趙','憶','憫'], STROKE='#00fff0', OUTLINE='rgba(255,255,255,.08)';
-  const mount=document.getElementById('neon-signature-mount'); if(!mount) return;
+  const mount=document.getElementById('neon-signature-mount');
+  if(!mount)return;
   const wrap=document.createElement('div');wrap.id='neon-signature';
   const box=document.createElement('div');box.className='neon-wrap';
   const note=document.createElement('div');note.className='neon-note';note.textContent='點擊可跳過動畫';
   const holders=CHARS.map((_,i)=>{const d=document.createElement('div');d.id='neon-char-'+i;d.className='neon-char';box.appendChild(d);return d;});
   wrap.appendChild(box);wrap.appendChild(note);mount.replaceWith(wrap);
   wrap.addEventListener('click',()=>wrap.classList.add('hide'));
-  function ready(fn){if(window.HanziWriter){fn();}else{let t=setInterval(()=>{if(window.HanziWriter){clearInterval(t);fn();}},50);}}
-  ready(()=>{
-    const writers=holders.map((el,i)=>HanziWriter.create(el.id, CHARS[i], {
+  function init(){
+    const writers=holders.map((el,i)=>HanziWriter.create(el.id,CHARS[i],{
       width:el.clientWidth||220,height:el.clientHeight||220,padding:8,
       showCharacter:false,showOutline:true,outlineColor:OUTLINE,
       strokeColor:STROKE,radicalColor:STROKE,
       strokeAnimationSpeed:SPEED,delayBetweenStrokes:SPEED*120,delayBetweenLoops:0
     }));
-    const play=(k)=>{ if(k>=writers.length){ wrap.classList.add('hide'); return; }
-      writers[k].animateCharacter({onComplete:()=>play(k+1)});
-    };
-    box.style.animation='neonFlicker 2.6s ease-in-out infinite'; play(0);
-  });
+    const play=(k)=>{if(k>=writers.length){wrap.classList.add('hide');return;}
+      writers[k].animateCharacter({onComplete:()=>play(k+1)});};
+    box.style.animation='neonFlicker 2.8s ease-in-out infinite';
+    play(0);
+  }
+  // 等腳本載入
+  if(window.HanziWriter){init();}else{
+    let t=setInterval(()=>{if(window.HanziWriter){clearInterval(t);init();}},80);
+  }
 })();
 </script>
 <!-- REPLACE END -->
