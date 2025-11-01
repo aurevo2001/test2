@@ -514,3 +514,13 @@ html,body{margin:0;padding:0;overflow-x:hidden}
 .fatism-page .video-grid .project-card .zoom{display:block;aspect-ratio:16/9;overflow:hidden;border-radius:12px;background:#000}
 .fatism-page .video-grid .project-card video{width:100%;height:100%;object-fit:cover;display:block}
 /* REPLACE END */
+/* APPEND START — front-only safe styles */
+:root{--wm:"© 趙憶憫 Min";} /* 你可改成 IG 或品牌字樣 */
+img,video{user-select:none;-webkit-user-drag:none;-webkit-touch-callout:none}
+.nosave{pointer-events:none} /* 需要時可加在單張圖/影片上，讓右鍵完全失效 */
+.protect img,.protect video{filter:brightness(1) contrast(1);transition:filter .2s;}
+.protect img:active,.protect video:active{filter:brightness(.98)} /* 降低連拍截圖品質微幅 */
+.lightbox::before{content:var(--wm);position:fixed;inset:0;pointer-events:none;opacity:.16;font:700 32px/1.2 ui-sans-serif,system-ui;letter-spacing:.05em;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.35);background:repeating-linear-gradient(45deg,transparent 0 120px,rgba(0,0,0,.15) 120px 121px);display:block;mix-blend-mode:overlay;transform:rotate(-18deg);}
+@media(max-width:640px){.lightbox::before{font-size:20px;opacity:.18}}
+/* 不影響你原本的 lightbox 圖/影片尺寸與操作 */
+/* APPEND END */
