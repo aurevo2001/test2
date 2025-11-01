@@ -461,12 +461,12 @@ html,body{margin:0;padding:0;overflow-x:hidden}
 .portfolio-page .gallery .card-vert:hover figure::before{opacity:1}
 .portfolio-page .gallery .card-vert:hover figcaption{opacity:1;transform:translateY(0)}
 
-/* === Personal page lightbox view — final version === */
-.personal-page .lightbox{display:none;position:fixed;inset:0;z-index:999;background:rgba(0,0,0,.86);align-items:center;justify-content:center}
-.personal-page .lightbox:target{display:flex}
-.personal-page .lightbox img{max-width:90%;max-height:85%;border-radius:10px;box-shadow:0 20px 40px rgba(0,0,0,.5);animation:fadeIn .25s ease}
-.personal-page .lightbox .close{position:fixed;top:20px;right:30px;width:36px;height:36px;cursor:pointer}
-.personal-page .lightbox .close::before,.personal-page .lightbox .close::after{content:"";position:absolute;top:50%;left:50%;width:22px;height:2px;background:#fff;transform-origin:center}
-.personal-page .lightbox .close::before{transform:translate(-50%,-50%) rotate(45deg)}
-.personal-page .lightbox .close::after{transform:translate(-50%,-50%) rotate(-45deg)}
-@keyframes fadeIn{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:scale(1)}}
+/* REPLACE START — Global Lightbox unifier (site-wide click-to-zoom) */
+.lightbox{display:none!important;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.86);align-items:center;justify-content:center;cursor:zoom-out}
+.lightbox:target{display:flex!important}
+.lightbox img{max-width:min(92vw,1400px);max-height:90vh;width:auto;height:auto;border-radius:10px;box-shadow:0 20px 40px rgba(0,0,0,.5)}
+.lightbox .close{position:absolute;inset:0;display:block;text-decoration:none}
+.lightbox .close::after{content:"✕";position:absolute;top:14px;right:18px;color:#fff;font-size:24px;opacity:.9}
+/* 讓 merch 先前那段 .lightbox:target{display:block} 全部失效 */
+.merch-page .lightbox:target{display:flex!important}
+/* REPLACE END — Global Lightbox unifier */
