@@ -470,3 +470,10 @@ html,body{margin:0;padding:0;overflow-x:hidden}
 /* 讓 merch 先前那段 .lightbox:target{display:block} 全部失效 */
 .merch-page .lightbox:target{display:flex!important}
 /* REPLACE END — Global Lightbox unifier */
+
+/* PATCH START — Lightbox 點擊穿透（personal / fatism） */
+.personal-page .project-overlay,.personal-page .project-info{pointer-events:none}
+.fatism-page .project-overlay,.fatism-page .project-info{pointer-events:none}
+/* 讓整張卡片的圖片區可點（保險） */
+.personal-page .project-card .zoom,.fatism-page .project-card .zoom{display:block}
+/* PATCH END — Lightbox 點擊穿透 */
