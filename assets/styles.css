@@ -477,3 +477,9 @@ html,body{margin:0;padding:0;overflow-x:hidden}
 /* 讓整張卡片的圖片區可點（保險） */
 .personal-page .project-card .zoom,.fatism-page .project-card .zoom{display:block}
 /* PATCH END — Lightbox 點擊穿透 */
+
+/* PATCH START — Business 頁圖片標題加黑影 */
+.business-page .card-vert figcaption{
+  text-shadow:0 2px 8px rgba(0,0,0,.65),0 4px 14px rgba(0,0,0,.4);
+}
+/* PATCH END — Business 頁圖片標題加黑影 */
