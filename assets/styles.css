@@ -498,3 +498,14 @@ html,body{margin:0;padding:0;overflow-x:hidden}
 @media(max-width:980px){.fatism-page .project-grid,.fatism-page .video-grid{column-count:2}}
 @media(max-width:640px){.fatism-page .project-grid,.fatism-page .video-grid{column-count:1}}
 /* PATCH END */
+
+/* PATCH START — Lightbox video sizing */
+.lightbox video{max-width:min(92vw,1400px);max-height:90vh;width:auto;height:auto;border-radius:10px;box-shadow:0 20px 40px rgba(0,0,0,.5);background:#000}
+/* PATCH END — Lightbox video sizing */
+
+/* PATCH START — Card media fixed ratio (避免 GIF 影響高度 & 影片列歪掉) */
+.project-card .zoom{display:block;aspect-ratio:4/3;overflow:hidden;border-radius:12px;background:#fff}
+.project-card img,.project-card video{width:100%;height:100%;object-fit:contain;display:block}
+/* 影片區維持 3 欄（已設 .video-grid=repeat(3,1fr），此處只是強化） */
+.fatism-page .video-grid{grid-template-columns:repeat(3,1fr)}
+/* PATCH END — Card media fixed ratio */
