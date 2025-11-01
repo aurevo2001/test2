@@ -9,8 +9,15 @@ const y=$('#y');if(y){y.textContent=new Date().getFullYear();}
 // ===== Contact 表單訊息（示範）=====
 const form=$('.form');if(form){form.addEventListener('submit',()=>{$('.form-tip',form).textContent='已收到訊息（示範：此頁不會實際送出）。'})}
 // REPLACE END: /assets/main.js 
-// APPEND START — 關燈箱即停止並重置影片，下次可重播
-function resetLightboxVideos(){document.querySelectorAll('.lightbox video').forEach(v=>{if(!v.paused){v.pause();}v.currentTime=0;});}
-window.addEventListener('hashchange',resetLightboxVideos);
-document.querySelectorAll('.lightbox .close').forEach(a=>a.addEventListener('click',resetLightboxVideos));
-// APPEND END
+
+/* PATCH START — Lightbox video pause on close */
+(function(){
+  const pauseAll=()=>document.querySelectorAll('.lightbox video').forEach(v=>{v.pause();try{v.currentTime=0;}catch(e){}});
+  // 關閉（hash 清空）時停止所有影片
+  window.addEventListener('hashchange',()=>{ if(!location.hash) pauseAll(); });
+  // 開某支時，暫停其他支，避免同時播放
+  document.querySelectorAll('.lightbox video').forEach(v=>{
+    v.addEventListener('play',()=>document.querySelectorAll('.lightbox video').forEach(o=>{if(o!==v){o.pause();}}));
+  });
+})();
+/* PATCH END — Lightbox video pause on close */
