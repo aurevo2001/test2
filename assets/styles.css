@@ -488,3 +488,13 @@ html,body{margin:0;padding:0;overflow-x:hidden}
   letter-spacing:.02em;
 }
 /* PATCH END — Business figcaption 深層黑影 */
+
+/* PATCH START — Fatism：欄式 Masonry，避免高卡片拉長同列 */
+.fatism-page .project-grid{display:block;column-count:4;column-gap:14px}
+.fatism-page .project-card{display:inline-block;width:100%;margin:0 0 14px;break-inside:avoid;contain:layout paint}
+.fatism-page .video-grid{column-count:3} /* 影片分開控制欄數 */
+
+@media(max-width:1080px){.fatism-page .project-grid{column-count:3}}
+@media(max-width:980px){.fatism-page .project-grid,.fatism-page .video-grid{column-count:2}}
+@media(max-width:640px){.fatism-page .project-grid,.fatism-page .video-grid{column-count:1}}
+/* PATCH END */
