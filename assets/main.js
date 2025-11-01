@@ -53,3 +53,39 @@ function resetLightboxVideos(){document.querySelectorAll('.lightbox video').forE
 window.addEventListener('hashchange',resetLightboxVideos);
 document.querySelectorAll('.lightbox .close').forEach(a=>a.addEventListener('click',resetLightboxVideos));
 /* APPEND END */
+
+/* REPLACE START — Neon Signature (趙憶憫，一筆一畫正確筆順) */
+const NEON_PAGE_SELECTOR='body';  // 只在 index.html 啟用
+const AUTO_FADE_OUT=true, REMOVE_AFTER=false;
+const NEON_STROKE='#00fff0', NEON_OUTLINE='rgba(255,255,255,.08)';
+const SPEED=0.8;  // ⚠️ 已為你調成稍慢動畫速度
+const CHARS=['趙','憶','憫'];
+
+(function neonSignature(){
+  if(!document.querySelector(NEON_PAGE_SELECTOR)) return;
+  const mount=document.getElementById('neon-signature-mount'); if(!mount) return;
+
+  const wrap=document.createElement('div');wrap.id='neon-signature';
+  const box=document.createElement('div');box.className='neon-wrap';
+  const note=document.createElement('div');note.className='neon-note';note.textContent='點擊可跳過動畫';
+  const holders=CHARS.map((_,i)=>{const d=document.createElement('div');d.id='neon-char-'+i;d.className='neon-char';box.appendChild(d);return d;});
+  wrap.appendChild(box);wrap.appendChild(note);mount.replaceWith(wrap);
+
+  function ready(fn){if(window.HanziWriter){fn();}else{let t=setInterval(()=>{if(window.HanziWriter){clearInterval(t);fn();}},50);}}
+  ready(()=>{
+    const writers=holders.map((el,i)=>HanziWriter.create(el.id, CHARS[i], {
+      width:el.clientWidth||220,height:el.clientHeight||220,padding:8,
+      showCharacter:false,showOutline:true,strokeColor:NEON_STROKE,radicalColor:NEON_STROKE,outlineColor:NEON_OUTLINE,
+      strokeAnimationSpeed:SPEED,delayBetweenStrokes:SPEED*120,delayBetweenLoops:0
+    }));
+
+    const playSeq=idx=>{
+      if(idx>=writers.length){ if(AUTO_FADE_OUT) wrap.classList.add('hide'); if(REMOVE_AFTER) setTimeout(()=>wrap.remove(),500); return; }
+      writers[idx].animateCharacter({onComplete:()=>playSeq(idx+1)});
+    };
+    box.style.animation='neonFlicker 2.6s ease-in-out infinite';
+    wrap.addEventListener('click',()=>wrap.classList.add('hide'));
+    playSeq(0);
+  });
+})();
+/* REPLACE END */
