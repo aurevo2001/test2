@@ -478,8 +478,13 @@ html,body{margin:0;padding:0;overflow-x:hidden}
 .personal-page .project-card .zoom,.fatism-page .project-card .zoom{display:block}
 /* PATCH END — Lightbox 點擊穿透 */
 
-/* PATCH START — Business 頁圖片標題加黑影 */
+/* PATCH START — Business figcaption 深層黑影（同 personal 風格） */
 .business-page .card-vert figcaption{
-  text-shadow:0 2px 8px rgba(0,0,0,.65),0 4px 14px rgba(0,0,0,.4);
+  text-shadow:
+    0 2px 6px rgba(0,0,0,.65),
+    0 4px 12px rgba(0,0,0,.55),
+    0 8px 18px rgba(0,0,0,.4);
+  font-weight:800;
+  letter-spacing:.02em;
 }
-/* PATCH END — Business 頁圖片標題加黑影 */
+/* PATCH END — Business figcaption 深層黑影 */
