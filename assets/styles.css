@@ -524,3 +524,13 @@ img,video{user-select:none;-webkit-user-drag:none;-webkit-touch-callout:none}
 @media(max-width:640px){.lightbox::before{font-size:20px;opacity:.18}}
 /* 不影響你原本的 lightbox 圖/影片尺寸與操作 */
 /* APPEND END */
+
+/* REPLACE START — Neon Signature (HanziWriter) */
+#neon-signature{position:fixed;inset:0;z-index:9998;display:grid;place-items:center;background:rgba(0,0,0,.55);backdrop-filter:blur(2px);transition:opacity .5s ease}
+#neon-signature.hide{opacity:0;pointer-events:none}
+.neon-wrap{display:flex;gap:20px;align-items:center;justify-content:center;padding:18px}
+.neon-char{width:min(28vw,220px);height:min(28vw,220px);filter:drop-shadow(0 0 4px #00fff0) drop-shadow(0 0 10px #47a6ff) drop-shadow(0 0 18px #b46bff)}
+.neon-note{position:absolute;bottom:16px;left:0;right:0;text-align:center;color:#fff;opacity:.85;font-weight:700}
+@media(max-width:640px){.neon-wrap{gap:12px}.neon-char{width:28vw;height:28vw}}
+@keyframes neonFlicker{0%,100%{opacity:1}48%{opacity:.96}50%{opacity:.9}52%{opacity:.98}70%{opacity:.94}}
+/* REPLACE END */
