@@ -6,7 +6,7 @@
   <meta name="color-scheme" content="light dark"/>
   <title>趙憶憫 | 首頁</title>
   <!-- APPEND START — basic front-end hardening -->
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: https:; media-src 'self' https:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' https://unpkg.com; frame-ancestors 'self'; base-uri 'self'">
+ <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: https:; media-src 'self' https:; style-src 'self' 'unsafe-inline'; script-src 'self' https://cdn.jsdelivr.net https://unpkg.com; connect-src 'self' https:; font-src 'self' data: https:; frame-ancestors 'self'; base-uri 'self'">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <!-- 避免被 iframe 夾帶（JS 也會再保險一次） -->
 <!-- APPEND END -->
@@ -174,13 +174,16 @@
     box.style.animation='neonFlicker 2.8s ease-in-out infinite';
     play(0);
   }
-  // 等腳本載入
-  if(window.HanziWriter){init();}else{
-    let t=setInterval(()=>{if(window.HanziWriter){clearInterval(t);init();}},80);
+  </script>
+<script src="https://cdn.jsdelivr.net/npm/hanzi-writer@3.6.0/dist/hanzi-writer.min.js"></script>
+<script>
+  // 若第一個 CDN 失敗，自動切到 unpkg
+  if(!window.HanziWriter){
+    var s=document.createElement('script');
+    s.src='https://unpkg.com/hanzi-writer@3.6.0/dist/hanzi-writer.min.js';
+    document.head.appendChild(s);
   }
-})();
 </script>
-<!-- REPLACE END -->
 
   <!-- 年份 -->
   <script>!function(){var y=document.getElementById('y');if(y){y.textContent=(new Date).getFullYear();}}();</script>
