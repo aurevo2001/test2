@@ -138,34 +138,33 @@
       </div>
     </div>
   </footer>
-<!-- REPLACE START — Neon SVG 筆順動畫（使用你的 sign1/2/3.svg） -->
+<!-- REPLACE START — Neon SVG 筆順動畫（順序播放＋放大） -->
 <div id="neon-svg-signature-mount"></div>
 <style>
-/* 罩層＋螢光樣式（不影響原頁） */
 #neon-svg-overlay{position:fixed;inset:0;z-index:99998;display:grid;place-items:center;background:rgba(0,0,0,.55);backdrop-filter:blur(2px);transition:opacity .6s ease}
 #neon-svg-overlay.hide{opacity:0;pointer-events:none}
-.neon-svg-wrap{display:flex;gap:20px;align-items:center;justify-content:center;padding:18px}
-.neon-svg{width:min(28vw,220px);height:min(28vw,220px);filter:drop-shadow(0 0 4px #00fff0) drop-shadow(0 0 10px #47a6ff) drop-shadow(0 0 18px #b46bff)}
+.neon-svg-wrap{display:flex;gap:28px;align-items:center;justify-content:center;padding:22px}
+.neon-svg{width:min(46vw,360px);height:min(46vw,360px);filter:drop-shadow(0 0 4px #00fff0) drop-shadow(0 0 12px #47a6ff) drop-shadow(0 0 22px #b46bff)}
 .neon-note{position:absolute;bottom:16px;left:0;right:0;text-align:center;color:#fff;opacity:.85;font-weight:700}
-@media(max-width:640px){.neon-svg-wrap{gap:12px}.neon-svg{width:28vw;height:28vw}}
+@media(max-width:640px){.neon-svg-wrap{gap:16px}.neon-svg{width:46vw;height:46vw}}
 @keyframes neonFlicker{0%,100%{opacity:1}48%{opacity:.96}50%{opacity:.9}52%{opacity:.98}70%{opacity:.94}}
 </style>
 <script>
-/* 參數：SPEED=0.8 越小越慢；FILES 三個字的 SVG 路徑 */
 (function(){
-  const SPEED=0.8, FILES=['assets/sign1.svg','assets/sign2.svg','assets/sign3.svg'];
-  const STROKE='#00fff0', OUTLINE='rgba(255,255,255,.08)', STROKE_W=4.5; /* 你可微調粗細 */
+  const SPEED=0.8; // 越小越慢（你要 0.8）
+  const FILES=['assets/sign1.svg','assets/sign2.svg','assets/sign3.svg'];
+  const STROKE='#00fff0', OUTLINE='rgba(255,255,255,.08)', STROKE_W=6; // 粗一點更有霓虹感
   const mount=document.getElementById('neon-svg-signature-mount'); if(!mount) return;
 
-  /* 建立覆蓋層骨架 */
+  // 建立覆蓋層骨架
   const overlay=document.createElement('div'); overlay.id='neon-svg-overlay';
   const box=document.createElement('div'); box.className='neon-svg-wrap';
   const note=document.createElement('div'); note.className='neon-note'; note.textContent='點擊可跳過動畫';
   overlay.appendChild(box); overlay.appendChild(note); mount.replaceWith(overlay);
-  overlay.addEventListener('click',()=>overlay.classList.add('hide')); /* 可點擊跳過 */
+  overlay.addEventListener('click',()=>overlay.classList.add('hide'));
   box.style.animation='neonFlicker 2.8s ease-in-out infinite';
 
-  /* 載入單一 SVG，取第一個 <path d="..."> 與 viewBox */
+  // 載入單一 SVG，抓第一個 path 與 viewBox
   async function loadPath(url){
     const txt=await fetch(url,{cache:'no-store'}).then(r=>r.text());
     const doc=new DOMParser().parseFromString(txt,'image/svg+xml');
@@ -174,55 +173,63 @@
     return {d:path.getAttribute('d'), viewBox:vb};
   }
 
-  /* 依序畫字：上一個完成後才啟動下一個 */
+  // 依序畫字：上一個完成後才啟動下一個
   (async function(){
     const datas=[];
     for(const u of FILES){ try{ datas.push(await loadPath(u)); }catch(e){ console.error(e); } }
     if(!datas.length){ overlay.classList.add('hide'); return; }
 
-    /* 先把三個 SVG 容器放好 */
+    // 先建三個 SVG 容器
     const svgs=datas.map((dat,i)=>{
       const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');
-      svg.setAttribute('class','neon-svg'); svg.setAttribute('viewBox',dat.viewBox);
+      svg.setAttribute('class','neon-svg');
+      svg.setAttribute('viewBox',dat.viewBox);
       svg.innerHTML=`<defs>
         <filter id="glow-${i}" x="-50%" y="-50%" width="200%" height="200%">
           <feGaussianBlur stdDeviation="2.2" result="blur1"/><feMerge>
             <feMergeNode in="blur1"/><feMergeNode in="SourceGraphic"/></feMerge>
         </filter>
       </defs>
-      <path fill="none" stroke="${OUTLINE}" stroke-width="${STROKE_W+2}" d="${dat.d}" />
-      <path id="stroke-${i}" fill="none" stroke="${STROKE}" stroke-linecap="round" stroke-linejoin="round" filter="url(#glow-${i})" stroke-width="${STROKE_W}" d="${dat.d}" />`;
+      <path class="outline" fill="none" stroke="${OUTLINE}" stroke-width="${STROKE_W+2}" d="${dat.d}" />
+      <path class="stroke"  fill="none" stroke="${STROKE}"  stroke-linecap="round" stroke-linejoin="round" filter="url(#glow-${i})" stroke-width="${STROKE_W}" d="${dat.d}" />`;
       box.appendChild(svg);
       return svg;
     });
 
-    /* 取得 path 長度並設定 dash，回傳一個會在動畫結束 resolve 的 Promise */
+    // 設定某個字的「描邊動畫」，同時隱藏 outline 直到描完
     function animateOne(svg){
       return new Promise(resolve=>{
-        const path=svg.querySelector('path[id^="stroke-"]'); if(!path) return resolve();
-        const L=path.getTotalLength();
-        path.style.transition='none';
-        path.style.strokeDasharray=L;
-        path.style.strokeDashoffset=L;
-        /* 下一幀開始動畫 */
+        const stroke=svg.querySelector('path.stroke');
+        const outline=svg.querySelector('path.outline');
+        if(!stroke){ resolve(); return; }
+
+        // 兩條線都先隱藏，避免「先看到外框」的問題
+        const L=stroke.getTotalLength();
+        stroke.style.transition='none'; stroke.style.strokeDasharray=L; stroke.style.strokeDashoffset=L;
+        outline.style.transition='none'; outline.style.strokeDasharray=L; outline.style.strokeDashoffset=L; outline.style.opacity='0';
+
+        // 下一幀開始動畫
         requestAnimationFrame(()=>{
-          const dur=Math.max(900,Math.min(2600,1800/SPEED)); /* 時長與 SPEED 有關 */
-          path.style.transition=`stroke-dashoffset ${dur}ms ease-in-out`;
-          path.addEventListener('transitionend',()=>resolve(),{once:true});
-          path.style.strokeDashoffset='0';
+          const dur=Math.max(900,Math.min(2600,1800/SPEED)); // 跟 SPEED 連動
+          stroke.style.transition=`stroke-dashoffset ${dur}ms ease-in-out`;
+          stroke.addEventListener('transitionend',()=>{
+            // 描完之後再把 outline 淡入，維持微弱底線
+            outline.style.transition='stroke-dashoffset 420ms ease-out, opacity 240ms ease-out';
+            outline.style.strokeDashoffset='0';
+            outline.style.opacity='1';
+            // 等 outline 完成再 resolve，讓下一個字開始
+            setTimeout(resolve, 420);
+          },{once:true});
+          stroke.style.strokeDashoffset='0';
         });
       });
     }
 
-    /* 逐一播放 */
+    // 逐一播放
     for(const svg of svgs){ await animateOne(svg); }
-    /* 全部完成 → 淡出 */
-    overlay.classList.add('hide');
-    // 放在 IIFE 一開始
-console.log('[neon-svg] init');
 
-// 放在每次成功取到 path 後
-console.log('[neon-svg] loaded', url, 'viewBox=', vb.slice(0,30)+'...');
+    // 全部完成 → 淡出覆蓋層
+    overlay.classList.add('hide');
   })();
 })();
 </script>
