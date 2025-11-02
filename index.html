@@ -138,54 +138,65 @@
       </div>
     </div>
   </footer>
-<!-- REPLACE START — Neon SVG 筆順動畫（逐一顯示＋等距分散＋放大兩倍） -->
+<!-- REPLACE START — Neon SVG 筆順動畫（逐一顯示｜等距三欄｜放大2x） -->
 <div id="neon-svg-signature-mount"></div>
 <style>
 #neon-svg-overlay{position:fixed;inset:0;z-index:99998;display:grid;place-items:center;background:rgba(0,0,0,.55);backdrop-filter:blur(2px);transition:opacity .6s ease}
 #neon-svg-overlay.hide{opacity:0;pointer-events:none}
 .neon-note{position:absolute;bottom:16px;left:0;right:0;text-align:center;color:#fff;opacity:.85;font-weight:700}
-.neon-row{width:90vw;max-width:1400px;display:flex;justify-content:space-between;align-items:center;gap:2vw;padding:18px;animation:neonFlicker 2.8s ease-in-out infinite}
-.neon-slot{flex:1;display:grid;place-items:center;min-height:min(34vw,380px)}
-.neon-svg{width:min(30vw,360px);height:min(30vw,360px);filter:drop-shadow(0 0 4px #00fff0) drop-shadow(0 0 10px #47a6ff) drop-shadow(0 0 18px #b46bff);opacity:0;transition:opacity .3s ease}
-@media(max-width:640px){.neon-slot{min-height:34vw}.neon-svg{width:34vw;height:34vw}}
+.neon-row{width:94vw;max-width:1600px;display:flex;justify-content:space-between;align-items:center;gap:3vw;padding:22px;animation:neonFlicker 2.8s ease-in-out infinite}
+.neon-slot{flex:1;display:grid;place-items:center;min-height:min(46vw,460px)} /* 预留空间，不会塌 */
+.neon-svg{width:min(42vw,520px);height:min(42vw,520px);filter:drop-shadow(0 0 4px #00fff0) drop-shadow(0 0 10px #47a6ff) drop-shadow(0 0 18px #b46bff);opacity:0;transform:scale(1.9);transform-origin:center;transition:opacity .24s ease}
+@media(max-width:640px){.neon-row{gap:4vw}.neon-slot{min-height:42vw}.neon-svg{width:42vw;height:42vw;transform:scale(1.6)}}
 @keyframes neonFlicker{0%,100%{opacity:1}48%{opacity:.96}50%{opacity:.9}52%{opacity:.98}70%{opacity:.94}}
 </style>
 <script>
 (function(){
   const FILES=['assets/sign1.svg','assets/sign2.svg','assets/sign3.svg'];
-  const SPEED=0.8, STROKE='#00fff0', OUTLINE='rgba(255,255,255,.08)', STROKE_W=4.5;
+  const SPEED=0.8, STROKE='#00fff0', OUTLINE='rgba(255,255,255,.08)', STROKE_W=4.8;
   const mount=document.getElementById('neon-svg-signature-mount'); if(!mount) return;
 
+  // 遮罩骨架＋三個「占位」槽位（先不放SVG，避免未輪到就露出）
   const overlay=document.createElement('div'); overlay.id='neon-svg-overlay';
   const row=document.createElement('div'); row.className='neon-row';
   const note=document.createElement('div'); note.className='neon-note'; note.textContent='點擊可跳過動畫';
   overlay.appendChild(row); overlay.appendChild(note); mount.replaceWith(overlay);
-  overlay.addEventListener('click',()=>overlay.classList.add('hide'));
-  const slots=[0,1,2].map(()=>{const s=document.createElement('div');s.className='neon-slot';row.appendChild(s);return s;});
+  const slots=[0,1,2].map(()=>{const s=document.createElement('div'); s.className='neon-slot'; row.appendChild(s); return s;});
+  overlay.addEventListener('click',()=>overlay.classList.add('hide')); // 可點擊跳過
 
   async function loadPath(url){
     const txt=await fetch(url,{cache:'no-store'}).then(r=>r.text());
     const doc=new DOMParser().parseFromString(txt,'image/svg+xml');
-    const el=doc.querySelector('path'); if(!el) throw new Error('SVG 無 path：'+url);
+    const p=doc.querySelector('path'); if(!p) throw new Error('SVG 無 path：'+url);
     const vb=(doc.documentElement.getAttribute('viewBox')||'0 0 210 297').trim();
-    return {d:el.getAttribute('d'),viewBox:vb};
+    return {d:p.getAttribute('d'), viewBox:vb};
   }
 
   function buildSVG(dat,idx){
     const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');
-    svg.setAttribute('class','neon-svg'); svg.setAttribute('viewBox',dat.viewBox);
+    svg.setAttribute('class','neon-svg');
+    svg.setAttribute('viewBox',dat.viewBox);
+    svg.setAttribute('preserveAspectRatio','xMidYMid meet'); // 防走位
+    // outline 也延後到輪到自己才顯示（避免「突然看到輪廓」）
     svg.innerHTML=`<defs><filter id="glow-${idx}" x="-50%" y="-50%" width="200%" height="200%">
-      <feGaussianBlur stdDeviation="2.2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
-      <path fill="none" stroke="${OUTLINE}" stroke-width="${STROKE_W+2}" d="${dat.d}"/>
-      <path id="stroke-${idx}" fill="none" stroke="${STROKE}" stroke-linecap="round" stroke-linejoin="round" filter="url(#glow-${idx})" stroke-width="${STROKE_W}" d="${dat.d}"/>`;
+      <feGaussianBlur stdDeviation="2.2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter></defs>
+    <path class="outline" fill="none" stroke="${OUTLINE}" stroke-width="${STROKE_W+2}" d="${dat.d}" opacity="0"/>
+    <path id="stroke-${idx}" fill="none" stroke="${STROKE}" stroke-linecap="round" stroke-linejoin="round" filter="url(#glow-${idx})" stroke-width="${STROKE_W}" d="${dat.d}"/>`;
     return svg;
   }
 
   function animateOne(svg){
     return new Promise(resolve=>{
-      svg.style.opacity=1;
+      svg.style.opacity=1; // 到自己才整個SVG顯示
+      const ol=svg.querySelector('.outline'); if(ol) ol.setAttribute('opacity','1'); // 輪到自己才顯示輪廓
       const path=svg.querySelector('path[id^="stroke-"]'); if(!path){resolve();return;}
-      const L=path.getTotalLength();
+      let L=0; try{ L=path.getTotalLength(); }catch{ L=0; }
+      if(!isFinite(L) || L<=0){ // 有些路徑可能無法量長度：退化為淡入，不卡住序列
+        path.style.opacity='0'; path.style.transition='opacity 180ms ease-in-out';
+        requestAnimationFrame(()=>{ path.addEventListener('transitionend',resolve,{once:true}); path.style.opacity='1'; });
+        return;
+      }
       path.style.transition='none'; path.style.strokeDasharray=L; path.style.strokeDashoffset=L;
       requestAnimationFrame(()=>{
         const dur=Math.max(900,Math.min(2600,1800/SPEED));
@@ -199,10 +210,18 @@
   (async function(){
     try{
       const datas=[]; for(const u of FILES){ datas.push(await loadPath(u)); }
-      const svgs=datas.map((dat,i)=>{const svg=buildSVG(dat,i); slots[i].appendChild(svg); return svg;});
-      for(let i=0;i<svgs.length;i++){ await animateOne(svgs[i]); }
+      // 序列：到誰就「現場 append」誰的 SVG，其它槽位仍占位但看不到字
+      for(let i=0;i<datas.length;i++){
+        const svg=buildSVG(datas[i],i);
+        slots[i].appendChild(svg);
+        await animateOne(svg);
+      }
+      // 全部完成後淡出遮罩
       overlay.classList.add('hide');
-    }catch(e){ console.error(e); overlay.classList.add('hide'); }
+    }catch(e){
+      console.error(e);
+      overlay.classList.add('hide');
+    }
   })();
 })();
 </script>
