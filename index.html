@@ -138,25 +138,25 @@
       </div>
     </div>
   </footer>
-<!-- REPLACE START — Neon SVG 筆順動畫（等距三槽＆嚴格串行顯示） -->
+<!-- REPLACE START — 最終穩定版 Neon SVG 簽名動畫（趙憶憫） -->
 <div id="neon-svg-signature-mount"></div>
 <style>
-#neon-svg-overlay{position:fixed;inset:0;z-index:99998;display:grid;place-items:center;background:rgba(0,0,0,.55);backdrop-filter:blur(2px);transition:opacity .6s ease}
+#neon-svg-overlay{position:fixed;inset:0;z-index:99998;display:grid;place-items:center;background:rgba(0,0,0,.55);backdrop-filter:blur(3px);transition:opacity .8s ease}
 #neon-svg-overlay.hide{opacity:0;pointer-events:none}
-.neon-svg-wrap{display:flex;justify-content:space-between;align-items:center;gap:24px;padding:18px;width:min(96vw,1100px)}
+.neon-svg-wrap{display:flex;justify-content:space-between;align-items:center;gap:28px;padding:24px;width:min(96vw,1200px)}
 .neon-slot{flex:1;display:grid;place-items:center;min-width:0}
-.neon-svg{width:min(32vw,320px);height:min(32vw,320px);opacity:0;filter:drop-shadow(0 0 4px #00fff0) drop-shadow(0 0 10px #47a6ff) drop-shadow(0 0 18px #b46bff)}
+.neon-svg{width:min(36vw,360px);height:min(36vw,360px);display:none;opacity:0;filter:drop-shadow(0 0 5px #00fff0) drop-shadow(0 0 14px #47a6ff) drop-shadow(0 0 22px #b46bff)}
 .neon-note{position:absolute;bottom:16px;left:0;right:0;text-align:center;color:#fff;opacity:.85;font-weight:700}
-@media(max-width:640px){.neon-svg-wrap{gap:12px;width:94vw}.neon-svg{width:30vw;height:30vw}}
+@media(max-width:640px){.neon-svg-wrap{gap:14px;width:94vw}.neon-svg{width:32vw;height:32vw}}
 @keyframes neonFlicker{0%,100%{opacity:1}48%{opacity:.96}50%{opacity:.9}52%{opacity:.98}70%{opacity:.94}}
 </style>
 <script>
 (function(){
   const SPEED=0.8, FILES=['assets/sign1.svg','assets/sign2.svg','assets/sign3.svg'];
-  const STROKE='#00fff0', OUTLINE='rgba(255,255,255,.08)', STROKE_W=7; // 加粗，確保一定看得到
+  const STROKE='#00fff0', OUTLINE='rgba(255,255,255,.1)', STROKE_W=8;
   const mount=document.getElementById('neon-svg-signature-mount'); if(!mount) return;
 
-  // 建立覆蓋層與三個「等距槽位」
+  // 建立覆蓋層骨架
   const overlay=document.createElement('div'); overlay.id='neon-svg-overlay';
   const wrap=document.createElement('div'); wrap.className='neon-svg-wrap';
   const note=document.createElement('div'); note.className='neon-note'; note.textContent='點擊可跳過動畫';
@@ -165,53 +165,70 @@
   overlay.addEventListener('click',()=>overlay.classList.add('hide'));
   wrap.style.animation='neonFlicker 2.8s ease-in-out infinite';
 
-  // 載入單一 SVG 的第一個 path 與 viewBox
+  // 載入單一 SVG path
   async function loadPath(url){
     const txt=await fetch(url,{cache:'no-store'}).then(r=>r.text());
     const doc=new DOMParser().parseFromString(txt,'image/svg+xml');
-    const path=doc.querySelector('path'); if(!path) throw new Error('SVG 無 path：'+url);
-    const vb=(doc.documentElement.getAttribute('viewBox')||'0 0 210 297').trim();
-    return {d:path.getAttribute('d'), viewBox:vb};
+    const path=doc.querySelector('path');
+    if(!path) throw new Error('SVG 無 path：'+url);
+    return {d:path.getAttribute('d')};
   }
 
-  // 建立 SVG（先整體不顯示：opacity:0）
+  // 建立 SVG 元素（初始隱藏）
   function buildSVG(dat,i){
     const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');
-    svg.setAttribute('class','neon-svg'); svg.setAttribute('viewBox',dat.viewBox);
+    svg.setAttribute('class','neon-svg');
+    svg.setAttribute('viewBox','0 0 800 800');
+    svg.setAttribute('preserveAspectRatio','xMidYMid meet');
     svg.innerHTML=`<defs>
-      <filter id="glow-${i}" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="2.2" result="b1"/><feMerge><feMergeNode in="b1"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+      <filter id="glow-${i}" x="-50%" y="-50%" width="200%" height="200%">
+        <feGaussianBlur stdDeviation="2.5" result="b1"/><feMerge><feMergeNode in="b1"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
     </defs>
     <path fill="none" stroke="${OUTLINE}" vector-effect="non-scaling-stroke" stroke-width="${STROKE_W+2}" d="${dat.d}"/>
-    <path id="stroke-${i}" fill="none" stroke="${STROKE}" stroke-linecap="round" stroke-linejoin="round" filter="url(#glow-${i})" vector-effect="non-scaling-stroke" stroke-width="${STROKE_W}" d="${dat.d}"/>`;
+    <path id="stroke-${i}" fill="none" stroke="${STROKE}" stroke-linecap="round" stroke-linejoin="round"
+      vector-effect="non-scaling-stroke" stroke-width="${STROKE_W}" filter="url(#glow-${i})" d="${dat.d}"/>`;
     return svg;
   }
 
-  // 動畫：讓本字出現→描邊→結束後保持顯示
+  // 單字動畫：顯示 + 描邊
   function animateOne(svg){
     return new Promise(resolve=>{
-      svg.style.opacity='1'; // 輪到它才顯示（其餘保持 0）
-      const path=svg.querySelector('path[id^="stroke-"]'); if(!path){resolve();return;}
-      const L=Math.max(0.001,path.getTotalLength()); // 防止 0 長度
-      path.style.transition='none'; path.style.strokeDasharray=(L+0.1); path.style.strokeDashoffset=(L+0.1);
+      svg.style.display='block'; // 出現
       requestAnimationFrame(()=>{
-        const dur=Math.max(900,Math.min(2800,1800/SPEED));
-        path.style.transition=`stroke-dashoffset ${dur}ms ease-in-out`;
-        path.addEventListener('transitionend',()=>resolve(),{once:true});
-        path.style.strokeDashoffset='0';
+        svg.style.opacity='1';
+        const path=svg.querySelector('path[id^="stroke-"]');
+        if(!path){resolve();return;}
+        const L=Math.max(0.001,path.getTotalLength());
+        path.style.transition='none';
+        path.style.strokeDasharray=L+0.1;
+        path.style.strokeDashoffset=L+0.1;
+        requestAnimationFrame(()=>{
+          const dur=Math.max(1200,Math.min(2800,1800/SPEED));
+          path.style.transition=`stroke-dashoffset ${dur}ms ease-in-out`;
+          path.addEventListener('transitionend',()=>resolve(),{once:true});
+          path.style.strokeDashoffset='0';
+        });
       });
     });
   }
 
-  // 依序：第1字→第2字→第3字；前一字保留可見，下一字在輪到前完全不可見
+  // 主控制：逐步插入 + 逐步動畫
   (async function run(){
-    const datas=[]; for(const u of FILES){ try{ datas.push(await loadPath(u)); }catch(e){ console.error(e);} }
-    if(datas.length!==3){ overlay.classList.add('hide'); return; }
+    const datas=[];
+    for(const f of FILES){try{datas.push(await loadPath(f));}catch(e){console.error(e);}}
+    if(datas.length<3){overlay.classList.add('hide');return;}
 
-    const svgs=datas.map((dat,i)=>{ const svg=buildSVG(dat,i); slots[i].appendChild(svg); return svg; });
-    // 確保起始時，只有第一個會被打開，其它維持 opacity:0（因為 buildSVG 預設就 0）
-    await animateOne(svgs[0]); // 第一個完成後，畫第二個
-    await animateOne(svgs[1]); // 第二個完成後，畫第三個
-    await animateOne(svgs[2]); // 全部完成後淡出罩層
+    const svgs=datas.map((d,i)=>buildSVG(d,i));
+    // 第1字
+    slots[0].appendChild(svgs[0]);
+    await animateOne(svgs[0]);
+    // 第2字
+    slots[1].appendChild(svgs[1]);
+    await animateOne(svgs[1]);
+    // 第3字
+    slots[2].appendChild(svgs[2]);
+    await animateOne(svgs[2]);
     overlay.classList.add('hide');
   })();
 })();
