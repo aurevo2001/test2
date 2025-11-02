@@ -138,15 +138,15 @@
       </div>
     </div>
   </footer>
-<!-- REPLACE START — Neon SVG 筆順動畫（多 path 逐段描邊＋順序播放＋放大） -->
+<!-- REPLACE START — Neon SVG 筆順動畫（序列顯示＋2x 放大） -->
 <div id="neon-svg-signature-mount"></div>
 <style>
 #neon-svg-overlay{position:fixed;inset:0;z-index:99998;display:grid;place-items:center;background:rgba(0,0,0,.55);backdrop-filter:blur(2px);transition:opacity .6s ease}
 #neon-svg-overlay.hide{opacity:0;pointer-events:none}
 .neon-svg-wrap{display:flex;gap:28px;align-items:center;justify-content:center;padding:22px}
-.neon-svg{width:min(56vw,420px);height:min(56vw,420px);filter:drop-shadow(0 0 4px #00fff0) drop-shadow(0 0 12px #47a6ff) drop-shadow(0 0 22px #b46bff)}
+.neon-svg{width:min(90vw,840px);height:min(90vw,840px);filter:drop-shadow(0 0 4px #00fff0) drop-shadow(0 0 12px #47a6ff) drop-shadow(0 0 22px #b46bff)}
 .neon-note{position:absolute;bottom:16px;left:0;right:0;text-align:center;color:#fff;opacity:.85;font-weight:700}
-@media(max-width:640px){.neon-svg-wrap{gap:16px}.neon-svg{width:56vw;height:56vw}}
+@media(max-width:640px){.neon-svg-wrap{gap:16px}.neon-svg{width:min(94vw,840px);height:min(94vw,840px)}}
 @keyframes neonFlicker{0%,100%{opacity:1}48%{opacity:.96}50%{opacity:.9}52%{opacity:.98}70%{opacity:.94}}
 </style>
 <script>
@@ -162,33 +162,30 @@
 
   async function loadSVG(url){const txt=await fetch(url,{cache:'no-store'}).then(r=>r.text());const doc=new DOMParser().parseFromString(txt,'image/svg+xml');const root=doc.documentElement;const vbox=(root.getAttribute('viewBox')||'0 0 210 297').trim();const paths=[...root.querySelectorAll('path')];if(!paths.length) throw new Error('SVG 無 path: '+url);return {viewBox:vbox, dList:paths.map(p=>p.getAttribute('d')).filter(Boolean)};}
 
-  function buildSVG(dat,idx){const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');svg.setAttribute('class','neon-svg');svg.setAttribute('viewBox',dat.viewBox);const defs=`<defs><filter id="glow-${idx}" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="2.2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>`;const outlines=dat.dList.map(d=>`<path class="outline" fill="none" stroke="${OUTLINE}" stroke-width="${STROKE_W+2}" d="${d}"/>`).join('');const strokes=dat.dList.map((d,i)=>`<path class="stroke s${i}" fill="none" stroke="${STROKE}" stroke-linecap="round" stroke-linejoin="round" filter="url(#glow-${idx})" stroke-width="${STROKE_W}" d="${d}"/>`).join('');svg.innerHTML=defs+outlines+strokes;box.appendChild(svg);return svg;}
-
-  function animatePathsSequentially(svg){
-    return new Promise(resolve=>{
-      const strokes=[...svg.querySelectorAll('path.stroke')]; const outlines=[...svg.querySelectorAll('path.outline')];
-      // 先把所有描邊與外框都用 dash 隱藏
-      strokes.forEach(p=>{const L=p.getTotalLength();p.style.transition='none';p.style.strokeDasharray=L; p.style.strokeDashoffset=L;});
-      outlines.forEach(p=>{const L=p.getTotalLength();p.style.transition='none';p.style.strokeDasharray=L; p.style.strokeDashoffset=L; p.style.opacity='0';});
-      // 逐個 path 畫
-      const D=Math.max(900,Math.min(2600,1800/SPEED)); let i=0;
-      const drawNext=()=>{ if(i>=strokes.length){ // 全部 path 畫完 → 把外框淡入
-          outlines.forEach(p=>{p.style.transition='stroke-dashoffset 420ms ease-out, opacity 240ms ease-out'; p.style.strokeDashoffset='0'; p.style.opacity='1';});
-          setTimeout(resolve, 420); return;
-        }
-        const p=strokes[i]; p.style.transition=`stroke-dashoffset ${D}ms ease-in-out`;
-        p.addEventListener('transitionend',()=>{i++; drawNext();},{once:true});
-        requestAnimationFrame(()=>{p.style.strokeDashoffset='0';});
-      };
-      requestAnimationFrame(drawNext);
-    });
+  function buildSVG(dat,idx){const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');svg.setAttribute('class','neon-svg');svg.setAttribute('viewBox',dat.viewBox);if(idx>0) svg.style.display='none';
+    const defs=`<defs><filter id="glow-${idx}" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="2.2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>`;
+    const outlines=dat.dList.map(d=>`<path class="outline" fill="none" stroke="${OUTLINE}" stroke-width="${STROKE_W+2}" d="${d}"/>`).join('');
+    const strokes=dat.dList.map((d,i)=>`<path class="stroke s${i}" fill="none" stroke="${STROKE}" stroke-linecap="round" stroke-linejoin="round" filter="url(#glow-${idx})" stroke-width="${STROKE_W}" d="${d}"/>`).join('');
+    svg.innerHTML=defs+outlines+strokes; box.appendChild(svg); return svg;
   }
+
+  function animatePathsSequentially(svg){return new Promise(resolve=>{
+    const strokes=[...svg.querySelectorAll('path.stroke')]; const outlines=[...svg.querySelectorAll('path.outline')];
+    strokes.forEach(p=>{const L=p.getTotalLength();p.style.transition='none';p.style.strokeDasharray=L; p.style.strokeDashoffset=L;});
+    outlines.forEach(p=>{const L=p.getTotalLength();p.style.transition='none';p.style.strokeDasharray=L; p.style.strokeDashoffset=L; p.style.opacity='0';});
+    const D=Math.max(900,Math.min(2600,1800/SPEED)); let i=0;
+    const drawNext=()=>{ if(i>=strokes.length){outlines.forEach(p=>{p.style.transition='stroke-dashoffset 420ms ease-out, opacity 240ms ease-out'; p.style.strokeDashoffset='0'; p.style.opacity='1';}); setTimeout(resolve,420); return;}
+      const p=strokes[i]; p.style.transition=`stroke-dashoffset ${D}ms ease-in-out`; p.addEventListener('transitionend',()=>{i++; drawNext();},{once:true});
+      requestAnimationFrame(()=>{p.style.strokeDashoffset='0';});
+    };
+    requestAnimationFrame(drawNext);
+  });}
 
   (async function(){
     const datas=[]; for(const u of FILES){try{datas.push(await loadSVG(u));}catch(e){console.error(e);}}
     if(!datas.length){overlay.classList.add('hide'); return;}
     const svgs=datas.map((dat,i)=>buildSVG(dat,i));
-    for(const svg of svgs){ await animatePathsSequentially(svg); }
+    for(let idx=0; idx<svgs.length; idx++){ const svg=svgs[idx]; svg.style.display=''; await animatePathsSequentially(svg); }
     overlay.classList.add('hide');
   })();
 })();
