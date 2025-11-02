@@ -6,7 +6,7 @@
   <meta name="color-scheme" content="light dark"/>
   <title>趙憶憫 | 首頁</title>
   <!-- APPEND START — basic front-end hardening -->
- <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: https:; media-src 'self' https:; style-src 'self' 'unsafe-inline'; script-src 'self' https://cdn.jsdelivr.net https://unpkg.com; connect-src 'self' https:; font-src 'self' data: https:; frame-ancestors 'self'; base-uri 'self'">
+ <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: https:; media-src 'self' https:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com; connect-src 'self' https:; font-src 'self' data: https:; frame-ancestors 'self'; base-uri 'self'">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <!-- 避免被 iframe 夾帶（JS 也會再保險一次） -->
 <!-- APPEND END -->
@@ -218,6 +218,11 @@
     for(const svg of svgs){ await animateOne(svg); }
     /* 全部完成 → 淡出 */
     overlay.classList.add('hide');
+    // 放在 IIFE 一開始
+console.log('[neon-svg] init');
+
+// 放在每次成功取到 path 後
+console.log('[neon-svg] loaded', url, 'viewBox=', vb.slice(0,30)+'...');
   })();
 })();
 </script>
