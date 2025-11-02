@@ -192,26 +192,32 @@
   }
 
   // 單字動畫：顯示 + 描邊
-  function animateOne(svg){
-    return new Promise(resolve=>{
-      svg.style.display='block'; // 出現
-      requestAnimationFrame(()=>{
-        svg.style.opacity='1';
-        const path=svg.querySelector('path[id^="stroke-"]');
-        if(!path){resolve();return;}
-        const L=Math.max(0.001,path.getTotalLength());
-        path.style.transition='none';
-        path.style.strokeDasharray=L+0.1;
-        path.style.strokeDashoffset=L+0.1;
-        requestAnimationFrame(()=>{
-          const dur=Math.max(1200,Math.min(2800,1800/SPEED));
-          path.style.transition=`stroke-dashoffset ${dur}ms ease-in-out`;
-          path.addEventListener('transitionend',()=>resolve(),{once:true});
-          path.style.strokeDashoffset='0';
-        });
-      });
+function animateOne(svg){
+  return new Promise(resolve=>{
+    const path=svg.querySelector('path[id^="stroke-"]'); if(!path) return resolve();
+    // 1) 取得長度，做「*2 + 微誤差」確保一定夠長
+    const L=Math.max(1,path.getTotalLength());
+    const A=L*2+2; // 兩倍長度 + 2 像素，避免只畫一半的視覺問題
+
+    // 2) 先把線條藏起來（完整遮蓋）
+    path.style.transition='none';
+    path.style.strokeDasharray=A;    // 用 2 倍長度
+    path.style.strokeDashoffset=A;   // 從完全未畫狀態開始
+
+    // 3) 下一幀開始動畫
+    requestAnimationFrame(()=>{
+      // 補強：增加線帽/連接，並確保縮放不改變線粗（可視需要）
+      path.setAttribute('stroke-linecap','round');
+      path.setAttribute('stroke-linejoin','round');
+      path.setAttribute('vector-effect','non-scaling-stroke');
+
+      const dur=Math.max(900,Math.min(2600,1800/SPEED));
+      path.style.transition=`stroke-dashoffset ${dur}ms ease-in-out`;
+      path.addEventListener('transitionend',()=>resolve(),{once:true});
+      path.style.strokeDashoffset='0'; // 從 A → 0，畫完整條路徑
     });
-  }
+  });
+}
 
   // 主控制：逐步插入 + 逐步動畫
   (async function run(){
