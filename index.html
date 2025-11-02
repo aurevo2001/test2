@@ -199,7 +199,7 @@
         svg.style.opacity='1';
         const path=svg.querySelector('path[id^="stroke-"]');
         if(!path){resolve();return;}
-        const L=Math.max(0.001,path.getTotalLength()*2);
+        const L=Math.max(0.001,path.getTotalLength());
         path.style.transition='none';
         path.style.strokeDasharray=L+0.1;
         path.style.strokeDashoffset=L+0.1;
