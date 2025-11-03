@@ -465,10 +465,35 @@ img,video{user-select:none;-webkit-user-drag:none;-webkit-touch-callout:none}
 @media(min-width:981px){.nav-toggle{display:none}.menu-overlay{display:none}}
 /* REPLACE END — FINAL Mobile Drawer */
 
-/* PATCH — mobile drawer colors, readable */
+/* APPEND START — 修正 mobile 抽屜顏色與可讀性 */
 @media(max-width:980px){
-  .site-nav{background:var(--c-header)!important;color:#fff!important;box-shadow:-12px 0 32px rgba(0,0,0,.28)}
-  .site-nav a{color:#fff!important;opacity:1}
-  .site-nav a:hover,.site-nav a:focus{background:rgba(255,255,255,.16);color:#fff}
-  .menu-overlay{background:rgba(0,0,0,.45);backdrop-filter:blur(2px)}
+  body.nav-open .site-nav{
+    background:#818E73!important; /* header 同色 */
+    color:#fff!important;
+    right:0; /* 從右側展開 */
+    width:33.333vw; /* 螢幕 1/3 寬 */
+    max-width:300px;
+    box-shadow:-8px 0 24px rgba(0,0,0,.35);
+  }
+  .site-nav a{
+    color:#fff!important;
+    font-weight:600;
+    display:block;
+    padding:14px 20px;
+  }
+  .site-nav a:hover,.site-nav a:focus{
+    background:rgba(255,255,255,.15);
+  }
+  .menu-overlay{
+    background:rgba(0,0,0,.55);
+    backdrop-filter:blur(2px);
+    opacity:0;
+    pointer-events:none;
+    transition:opacity .3s ease;
+  }
+  .menu-overlay.show{
+    opacity:1;
+    pointer-events:auto;
+  }
 }
+/* APPEND END — 修正 mobile 抽屜顏色與可讀性 */
