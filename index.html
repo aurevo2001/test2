@@ -11,8 +11,10 @@
 <!-- 避免被 iframe 夾帶（JS 也會再保險一次） -->
 <!-- APPEND END -->
   <meta name="description" content="官方首頁"/>
-  <link rel="preload" href="/assets/styles.css" as="style"/>
-  <link rel="stylesheet" href="/assets/styles.css"/>
+  <!-- REPLACE START — 非阻塞樣式 + Hero 預載 -->
+  <link rel="preload" href="/assets/styles.css" as="style" onload="this.onload=null;this.rel='stylesheet'"/><noscript><link rel="stylesheet" href="/assets/styles.css"/></noscript>
+  <link rel="preload" as="image" href="images/home_hero.jpg" fetchpriority="high"/>
+  <!-- REPLACE END -->
 </head>  
 <body class="home-page bg-layer">
   <!-- Header -->
@@ -145,10 +147,10 @@
 #neon-svg-overlay.hide{opacity:0;pointer-events:none}
 .neon-svg-wrap{display:flex;justify-content:space-between;align-items:center;gap:28px;padding:24px;width:min(96vw,1200px)}
 .neon-slot{flex:1;display:grid;place-items:center;min-width:0}
-.neon-svg{width:min(288vw,2880px);height:min(288vw,2880px);display:none;opacity:.85;filter:drop-shadow(0 0 2px #B0B7BD) drop-shadow(0 0 6px #D9E0E6);}
-#neon-svg-overlay{background:rgba(40,48,56,.8);}
+.neon-svg{width:min(288vw,2880px);height:min(288vw,2880px);display:none;opacity:.72;filter:drop-shadow(0 0 1.6px #B0B7BD) drop-shadow(0 0 4px #D9E0E6)}
+#neon-svg-overlay{background:rgba(40,48,56,.8);backdrop-filter:blur(3px)}
 .neon-note{position:absolute;bottom:16px;left:0;right:0;text-align:center;color:#fff;opacity:.85;font-weight:700}
-@media(max-width:640px){.neon-svg-wrap{gap:14px;width:94vw}.neon-svg{width:32vw;height:32vw}}
+@media(max-width:640px){.neon-svg-wrap{gap:14px;width:94vw}.neon-svg{width:44vw;height:44vw}}
 @keyframes neonFlicker{0%,100%{opacity:1}48%{opacity:.96}50%{opacity:.9}52%{opacity:.98}70%{opacity:.94}}
 
 :root{--neon-shift-desktop:-8vw;--neon-shift-tablet:-6vw;--neon-shift-mobile:-4vw}
@@ -215,21 +217,26 @@
     });
   }
 
-  (async function run(){
-    const datas=[];
-    for(const f of FILES){try{datas.push(await loadPath(f));}catch(e){console.error(e);}}
-    if(datas.length<3){overlay.classList.add('hide');return;}
-    const svgs=datas.map((d,i)=>buildSVG(d,i));
-    slots[0].appendChild(svgs[0]); await animateOne(svgs[0]);
-    slots[1].appendChild(svgs[1]); await animateOne(svgs[1]);
-    slots[2].appendChild(svgs[2]); await animateOne(svgs[2]);
-    overlay.classList.add('hide');
+async function runNeon(){
+  const datas=[]; for(const f of FILES){try{datas.push(await loadPath(f));}catch(e){console.error(e);}}
+  if(datas.length<3){overlay.classList.add('hide');return;}
+  const svgs=datas.map((d,i)=>buildSVG(d,i));
+  slots[0].appendChild(svgs[0]); await animateOne(svgs[0]);
+  slots[1].appendChild(svgs[1]); await animateOne(svgs[1]);
+  slots[2].appendChild(svgs[2]); await animateOne(svgs[2]);
+  overlay.classList.add('hide');
+}
+function onIdle(fn){if('requestIdleCallback'in window){requestIdleCallback(fn,{timeout:1500});}else{setTimeout(fn,900);}}
+window.addEventListener('load',()=>onIdle(runNeon));
   })();
 })();
 </script>
 <!-- REPLACE END -->
-
   <!-- 年份 -->
   <script>!function(){var y=document.getElementById('y');if(y){y.textContent=(new Date).getFullYear();}}();</script>
+  <!-- REPLACE START — 圖片 lazy/async（Hero 例外） -->
+<script>document.addEventListener('DOMContentLoaded',()=>{document.querySelectorAll('img').forEach(img=>{if(!img.closest('.hero-media')){img.loading='lazy';img.decoding='async';}});});</script>
+<!-- REPLACE END -->
+
 </body>
 </html>
