@@ -467,8 +467,8 @@ img,video{user-select:none;-webkit-user-drag:none;-webkit-touch-callout:none}
 
 /* PATCH — mobile drawer colors, readable */
 @media(max-width:980px){
-  .site-nav{background:color-mix(in srgb,var(--c-header) 96%, #000 4%)}
-  .site-nav a{color:#fff;opacity:1}
-  .site-nav a:hover{background:rgba(255,255,255,.14)}
-  .menu-overlay{background:color-mix(in srgb,var(--c-header) 28%, #000 40%)} /* 比單純黑更貼色系 */
+  .site-nav{background:var(--c-header)!important;color:#fff!important;box-shadow:-12px 0 32px rgba(0,0,0,.28)}
+  .site-nav a{color:#fff!important;opacity:1}
+  .site-nav a:hover,.site-nav a:focus{background:rgba(255,255,255,.16);color:#fff}
+  .menu-overlay{background:rgba(0,0,0,.45);backdrop-filter:blur(2px)}
 }
