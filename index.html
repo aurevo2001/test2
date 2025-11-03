@@ -138,7 +138,7 @@
       </div>
     </div>
   </footer>
-<!-- REPLACE START — 最終穩定版 Neon SVG 簽名動畫（趙憶憫） -->
+// REPLACE START — 最終穩定版 Neon SVG 簽名動畫（趙憶憫）
 <div id="neon-svg-signature-mount"></div>
 <style>
 #neon-svg-overlay{position:fixed;inset:0;z-index:99998;display:grid;place-items:center;background:rgba(0,0,0,.55);backdrop-filter:blur(3px);transition:opacity .8s ease}
@@ -156,7 +156,6 @@
   const STROKE='#00fff0', OUTLINE='rgba(255,255,255,.1)', STROKE_W=8;
   const mount=document.getElementById('neon-svg-signature-mount'); if(!mount) return;
 
-  // 建立覆蓋層骨架
   const overlay=document.createElement('div'); overlay.id='neon-svg-overlay';
   const wrap=document.createElement('div'); wrap.className='neon-svg-wrap';
   const note=document.createElement('div'); note.className='neon-note'; note.textContent='點擊可跳過動畫';
@@ -165,7 +164,6 @@
   overlay.addEventListener('click',()=>overlay.classList.add('hide'));
   wrap.style.animation='neonFlicker 2.8s ease-in-out infinite';
 
-  // 載入單一 SVG path
   async function loadPath(url){
     const txt=await fetch(url,{cache:'no-store'}).then(r=>r.text());
     const doc=new DOMParser().parseFromString(txt,'image/svg+xml');
@@ -174,7 +172,6 @@
     return {d:path.getAttribute('d')};
   }
 
-  // 建立 SVG 元素（初始隱藏）
   function buildSVG(dat,i){
     const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');
     svg.setAttribute('class','neon-svg');
@@ -191,10 +188,9 @@
     return svg;
   }
 
-  // 單字動畫：顯示 + 描邊
   function animateOne(svg){
     return new Promise(resolve=>{
-      svg.style.display='block'; // 出現
+      svg.style.display='block';
       requestAnimationFrame(()=>{
         svg.style.opacity='1';
         const path=svg.querySelector('path[id^="stroke-"]');
@@ -211,25 +207,16 @@
         });
       });
     });
-  };
-}
+  }
 
-  // 主控制：逐步插入 + 逐步動畫
   (async function run(){
     const datas=[];
     for(const f of FILES){try{datas.push(await loadPath(f));}catch(e){console.error(e);}}
     if(datas.length<3){overlay.classList.add('hide');return;}
-
     const svgs=datas.map((d,i)=>buildSVG(d,i));
-    // 第1字
-    slots[0].appendChild(svgs[0]);
-    await animateOne(svgs[0]);
-    // 第2字
-    slots[1].appendChild(svgs[1]);
-    await animateOne(svgs[1]);
-    // 第3字
-    slots[2].appendChild(svgs[2]);
-    await animateOne(svgs[2]);
+    slots[0].appendChild(svgs[0]); await animateOne(svgs[0]);
+    slots[1].appendChild(svgs[1]); await animateOne(svgs[1]);
+    slots[2].appendChild(svgs[2]); await animateOne(svgs[2]);
     overlay.classList.add('hide');
   })();
 })();
