@@ -1,15 +1,79 @@
-/* REPLACE START — assets/main.js */
-(()=>{const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
-document.addEventListener("DOMContentLoaded",()=>{const body=document.body,nav=$(".site-nav"),btn=$(".nav-toggle");if(!nav||!btn)return;
-/* 補遮罩(若不存在) */let mask=$("#navOverlay");if(!mask){mask=document.createElement("div");mask.id="navOverlay";body.appendChild(mask);}
-const open=()=>{body.classList.add("nav-open");btn.setAttribute("aria-expanded","true");},close=()=>{body.classList.remove("nav-open");btn.setAttribute("aria-expanded","false");};
-btn.addEventListener("click",e=>{e.preventDefault();body.classList.contains("nav-open")?close():open();});
-mask.addEventListener("click",close);
-nav.addEventListener("click",e=>{if(e.target.closest("a")) close();});
-document.addEventListener("keydown",e=>{if(e.key==="Escape") close();});
-/* 初始強制關閉，避免舊 CSS/快取讓它一開始就展開 */close();
-/* 桌機斷點自動關閉，避免殘留 */matchMedia("(min-width:981px)").addEventListener("change",m=>{if(m.matches) close();});
-/* Footer 年份 */const y=$("#y");if(y) y.textContent=new Date().getFullYear();
-/* Lightbox：點空白或叉關閉並重置影片 */$$(".lightbox").forEach(b=>{b.addEventListener("click",ev=>{if(ev.target===b||ev.target.classList.contains("close")){b.removeAttribute("open");const v=b.querySelector("video");if(v){v.pause();v.currentTime=0;}}});});
-/* frame 防注入 */try{if(top!==self) top.location=location.href;}catch(_){}});
-/* REPLACE END — assets/main.js */
+/* PATCH START — Lightbox video pause on close */
+(function(){
+  const pauseAll=()=>document.querySelectorAll('.lightbox video').forEach(v=>{v.pause();try{v.currentTime=0;}catch(e){}});
+  window.addEventListener('hashchange',()=>{ if(!location.hash) pauseAll(); });
+  document.querySelectorAll('.lightbox video').forEach(v=>{
+    v.addEventListener('play',()=>document.querySelectorAll('.lightbox video').forEach(o=>{if(o!==v)o.pause();}));
+  });
+})();
+/* PATCH END */
+
+/* APPEND START — front-only hardening JS */
+// 防止被 iframe 嵌入
+try{if(top!==self){top.location=self.location;}}catch(e){}
+// 對外連結自動加 rel 屬性
+document.querySelectorAll('a[target="_blank"]').forEach(a=>{
+  a.rel=(a.rel||"").split(" ").filter(Boolean).concat(["noopener","noreferrer"]).join(" ");
+});
+// 清理可疑 href
+document.querySelectorAll('a[href]').forEach(a=>{
+  const href=a.getAttribute('href')||"";
+  if(/^javascript:/i.test(href)||/^data:text\/html/i.test(href))a.removeAttribute('href');
+});
+// 禁止圖片/影片右鍵與拖拉
+const blockCtx=e=>{const t=e.target;if(t.closest('.allow-menu'))return;if(t.tagName==='IMG'||t.tagName==='VIDEO')e.preventDefault();};
+window.addEventListener('contextmenu',blockCtx);
+window.addEventListener('dragstart',e=>{if(e.target.tagName==='IMG'||e.target.tagName==='VIDEO')e.preventDefault();},true);
+// 行動裝置長按下載抑制
+let pressTimer=null;
+const cancelPress=()=>{clearTimeout(pressTimer);pressTimer=null;}
+const onTouchStart=e=>{const t=e.target;if(t.tagName==='IMG'||t.tagName==='VIDEO'){pressTimer=setTimeout(()=>{e.preventDefault();},450);}}
+document.addEventListener('touchstart',onTouchStart,{passive:false});
+document.addEventListener('touchend',cancelPress,{passive:true});
+document.addEventListener('touchmove',cancelPress,{passive:true});
+/* APPEND END */
+
+/* REPLACE START — FINAL Mobile Drawer (right 1/3, below header) */
+(function(){
+  const btn=document.querySelector('.nav-toggle');
+  const nav=document.querySelector('.site-nav');
+  if(!btn||!nav) return;
+
+  // 建立遮罩
+  let overlay=document.querySelector('.menu-overlay');
+  if(!overlay){
+    overlay=document.createElement('div');
+    overlay.className='menu-overlay';
+    document.body.appendChild(overlay);
+  }
+
+  function setOpen(v){
+    btn.setAttribute('aria-expanded',v);
+    nav.classList.toggle('open',v);
+    overlay.classList.toggle('show',v);
+    document.body.classList.toggle('nav-open',v);
+  }
+
+  // 初始化關閉
+  setOpen(false);
+
+  // 點擊切換
+  btn.addEventListener('click',e=>{
+    e.stopPropagation();
+    const now=btn.getAttribute('aria-expanded')==='true';
+    setOpen(!now);
+  });
+
+  // 點遮罩或空白關閉
+  overlay.addEventListener('click',()=>setOpen(false));
+  document.addEventListener('click',e=>{
+    if(nav.classList.contains('open')&&!nav.contains(e.target)&&!btn.contains(e.target)) setOpen(false);
+  });
+
+  // Esc 關閉
+  document.addEventListener('keydown',e=>{if(e.key==='Escape')setOpen(false);});
+
+  // 點選單連結自動關閉
+  nav.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>setOpen(false)));
+})();
+/* REPLACE END — FINAL Mobile Drawer */
