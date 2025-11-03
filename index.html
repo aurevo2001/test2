@@ -156,12 +156,23 @@
 :root{--neon-shift-desktop:-8vw;--neon-shift-tablet:-6vw;--neon-shift-mobile:-4vw}
 #neon-svg-overlay .neon-svg-wrap{transform:translateX(var(--neon-shift-desktop))}
 @media(max-width:1024px){#neon-svg-overlay .neon-svg-wrap{transform:translateX(var(--neon-shift-tablet))}}
-/* REPLACE START — mobile neon 改大 & 置中 & 降重繪 */
+
+/* REPLACE START — 手機：放大整體簽名，置中顯示 */
 @media(max-width:640px){
   #neon-svg-overlay{background:rgba(18,22,26,.86);backdrop-filter:none}
-  .neon-svg-wrap{display:grid;place-items:center;gap:12px;width:100vw;transform:none}
-  .neon-svg{width:min(92vw,720px);height:min(92vw,720px);opacity:.95;filter:drop-shadow(0 0 2px #DACCC1) drop-shadow(0 0 6px #C5A387)}
+  #neon-svg-overlay .neon-svg-wrap{display:grid;place-items:center;gap:12px;width:100vw;transform:none !important}
+  .neon-slot{width:100vw;display:grid;place-items:center}
+  .neon-svg{
+    width:100vw;height:auto;
+    transform:scale(2.6);            /* ← 這裡是「放大 2.6 倍」的關鍵 */
+    transform-origin:center center;  /* 以中心當作縮放基準，避免被擠到角落 */
+    opacity:.96;
+    filter:drop-shadow(0 0 2px #DACCC1) drop-shadow(0 0 6px #C5A387);
+  }
+  .neon-note{font-size:4.4vw}
 }
+/* REPLACE END */
+
 /* REPLACE END */
 
 </style>
