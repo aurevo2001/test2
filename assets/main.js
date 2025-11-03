@@ -41,11 +41,13 @@ function resetLightboxVideos(){document.querySelectorAll('.lightbox video').forE
 window.addEventListener('hashchange',resetLightboxVideos);
 document.querySelectorAll('.lightbox .close').forEach(a=>a.addEventListener('click',resetLightboxVideos));
 /* APPEND END */
-/* REPLACE START — mobile drawer (right 1/3) */
+/* REPLACE START — mobile drawer (right 1/3, below header) */
 (function(){
-  const btn=document.querySelector('.nav-toggle'); const nav=document.querySelector('.site-nav'); if(!btn||!nav) return;
+  const btn=document.querySelector('.nav-toggle');
+  const nav=document.querySelector('.site-nav');
+  if(!btn||!nav) return;
 
-  // 建立半透明遮罩
+  // 建立（或取得）遮罩
   let overlay=document.querySelector('.menu-overlay');
   if(!overlay){ overlay=document.createElement('div'); overlay.className='menu-overlay'; document.body.appendChild(overlay); }
 
@@ -56,10 +58,13 @@ document.querySelectorAll('.lightbox .close').forEach(a=>a.addEventListener('cli
     document.body.classList.toggle('nav-open',v);
   }
 
-  // 切換開關
+  // 初始保證關閉（防止「載入時就打開」）
+  setOpen(false);
+
+  // 切換
   btn.addEventListener('click',e=>{ e.stopPropagation(); setOpen(btn.getAttribute('aria-expanded')!=='true'); });
 
-  // 點遮罩、點外面關閉
+  // 點遮罩或頁面空白處關閉
   overlay.addEventListener('click',()=>setOpen(false));
   document.addEventListener('click',e=>{ if(nav.classList.contains('open') && !nav.contains(e.target) && !btn.contains(e.target)) setOpen(false); });
 
@@ -69,4 +74,4 @@ document.querySelectorAll('.lightbox .close').forEach(a=>a.addEventListener('cli
   // 點選單連結自動關閉
   nav.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>setOpen(false)));
 })();
-/* REPLACE END — mobile drawer (right 1/3) */
+/* REPLACE END — mobile drawer (right 1/3, below header) */
