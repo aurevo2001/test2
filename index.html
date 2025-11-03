@@ -217,8 +217,10 @@
     });
   }
 
-async function runNeon(){
-  const datas=[]; for(const f of FILES){try{datas.push(await loadPath(f));}catch(e){console.error(e);}}
+// 主控制：逐步插入 + 逐步動畫（延後到載入＋idle 再跑，降低 TBT）
+async function run(){
+  const datas=[];
+  for(const f of FILES){try{datas.push(await loadPath(f));}catch(e){console.error(e);}}
   if(datas.length<3){overlay.classList.add('hide');return;}
   const svgs=datas.map((d,i)=>buildSVG(d,i));
   slots[0].appendChild(svgs[0]); await animateOne(svgs[0]);
@@ -226,8 +228,10 @@ async function runNeon(){
   slots[2].appendChild(svgs[2]); await animateOne(svgs[2]);
   overlay.classList.add('hide');
 }
-function onIdle(fn){if('requestIdleCallback'in window){requestIdleCallback(fn,{timeout:1500});}else{setTimeout(fn,900);}}
-window.addEventListener('load',()=>onIdle(runNeon));
+// idle helper（仍在同一個閉包，能取用 overlay/slots 等）
+function onIdle(fn){if('requestIdleCallback' in window){requestIdleCallback(fn,{timeout:1500});}else{setTimeout(fn,900);}}
+window.addEventListener('load',()=>onIdle(run));
+
   })();
 })();
 </script>
