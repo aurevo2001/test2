@@ -53,3 +53,10 @@ function resetLightboxVideos(){document.querySelectorAll('.lightbox video').forE
 window.addEventListener('hashchange',resetLightboxVideos);
 document.querySelectorAll('.lightbox .close').forEach(a=>a.addEventListener('click',resetLightboxVideos));
 /* APPEND END */
+(function(){
+  const btn=document.querySelector('.nav-toggle'); const nav=document.querySelector('.site-nav'); if(!btn||!nav) return;
+  function setOpen(v){ btn.setAttribute('aria-expanded',v); nav.classList.toggle('open',v); document.body.classList.toggle('nav-open',v); }
+  btn.addEventListener('click',e=>{ e.stopPropagation(); setOpen(btn.getAttribute('aria-expanded')!=='true'); });
+  document.addEventListener('click',e=>{ if(nav.classList.contains('open') && !nav.contains(e.target) && !btn.contains(e.target)) setOpen(false); });
+  document.addEventListener('keydown',e=>{ if(e.key==='Escape') setOpen(false); });
+})();
