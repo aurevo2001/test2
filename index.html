@@ -158,9 +158,9 @@
 @media(max-width:1024px){#neon-svg-overlay .neon-svg-wrap{transform:translateX(var(--neon-shift-tablet))}}
 /* REPLACE START — mobile neon 改大 & 置中 & 降重繪 */
 @media(max-width:640px){
-  #neon-svg-overlay{background:rgba(18,22,26,.86);backdrop-filter:none}     /* 手機關閉毛玻璃，背景更深一點提高對比 */
-  .neon-svg-wrap{flex-direction:column;align-items:center;justify-content:center;gap:18px;width:100vw;transform:none} /* 由橫排改直排，置中 */
-  .neon-svg{width:64vw;height:64vw;opacity:.9;filter:drop-shadow(0 0 2px #DACCC1) drop-shadow(0 0 6px #C5A387)} /* 放大並加亮 */
+  #neon-svg-overlay{background:rgba(18,22,26,.86);backdrop-filter:none}
+  .neon-svg-wrap{display:grid;place-items:center;gap:12px;width:100vw;transform:none}
+  .neon-svg{width:min(92vw,720px);height:min(92vw,720px);opacity:.95;filter:drop-shadow(0 0 2px #DACCC1) drop-shadow(0 0 6px #C5A387)}
 }
 /* REPLACE END */
 
