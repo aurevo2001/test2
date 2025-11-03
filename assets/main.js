@@ -1,13 +1,4 @@
-// REPLACE START: /assets/main.js 全量覆蓋
-// ===== 導覽列：目前頁面高亮 =====
-(function markActive(){const path=location.pathname.split('/').pop()||'index.html';$$('.site-nav a').forEach(a=>{const href=a.getAttribute('href');if(href===path){a.classList.add('is-active')}})})();
-// ===== 年度自動更新 =====
-const y=$('#y');if(y){y.textContent=new Date().getFullYear();}
-// ===== Contact 表單訊息（示範）=====
-const form=$('.form');if(form){form.addEventListener('submit',()=>{$('.form-tip',form).textContent='已收到訊息（示範：此頁不會實際送出）。'})}
-// REPLACE END: /assets/main.js 
-  
-/* PATCH START — Lightbox video pause on close */
+  /* PATCH START — Lightbox video pause on close */
 (function(){
   const pauseAll=()=>document.querySelectorAll('.lightbox video').forEach(v=>{v.pause();try{v.currentTime=0;}catch(e){}});
   // 關閉（hash 清空）時停止所有影片
@@ -50,14 +41,32 @@ function resetLightboxVideos(){document.querySelectorAll('.lightbox video').forE
 window.addEventListener('hashchange',resetLightboxVideos);
 document.querySelectorAll('.lightbox .close').forEach(a=>a.addEventListener('click',resetLightboxVideos));
 /* APPEND END */
-/* REPLACE START — mobile nav (single source of truth) */
+/* REPLACE START — mobile drawer (right 1/3) */
 (function(){
   const btn=document.querySelector('.nav-toggle'); const nav=document.querySelector('.site-nav'); if(!btn||!nav) return;
-  function setOpen(v){ btn.setAttribute('aria-expanded',v); nav.classList.toggle('open',v); document.body.classList.toggle('nav-open',v); }
+
+  // 建立半透明遮罩
+  let overlay=document.querySelector('.menu-overlay');
+  if(!overlay){ overlay=document.createElement('div'); overlay.className='menu-overlay'; document.body.appendChild(overlay); }
+
+  function setOpen(v){
+    btn.setAttribute('aria-expanded',v);
+    nav.classList.toggle('open',v);
+    overlay.classList.toggle('show',v);
+    document.body.classList.toggle('nav-open',v);
+  }
+
+  // 切換開關
   btn.addEventListener('click',e=>{ e.stopPropagation(); setOpen(btn.getAttribute('aria-expanded')!=='true'); });
+
+  // 點遮罩、點外面關閉
+  overlay.addEventListener('click',()=>setOpen(false));
   document.addEventListener('click',e=>{ if(nav.classList.contains('open') && !nav.contains(e.target) && !btn.contains(e.target)) setOpen(false); });
+
+  // Esc 關閉
   document.addEventListener('keydown',e=>{ if(e.key==='Escape') setOpen(false); });
+
+  // 點選單連結自動關閉
   nav.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>setOpen(false)));
 })();
-/* REPLACE END — mobile nav */
-
+/* REPLACE END — mobile drawer (right 1/3) */
