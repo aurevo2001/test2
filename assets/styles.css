@@ -535,3 +535,8 @@ img,video{user-select:none;-webkit-user-drag:none;-webkit-touch-callout:none}
   .site-nav a:active,.site-nav a:focus,.site-nav a:hover{background:rgba(0,0,0,.06)}
   body.nav-open{overflow:hidden}
 }
+/* PATCH — unify mobile nav, kill old scaleY system */
+@media(max-width:640px){
+  .site-nav{transform:none !important}
+  .site-nav.open{transform:none !important}
+}
