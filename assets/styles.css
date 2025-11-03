@@ -4,7 +4,7 @@ html,body{height:100%}
 html,body{overflow-x:hidden;}
 body{margin:0;font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Noto Sans,Helvetica,Arial,"Apple Color Emoji","Segoe UI Emoji";color:var(--c-text);background:#fff}
 .container{max-width:1080px;margin-inline:auto;padding:0 20px}
-
+ 
 /* 修正：避免背景斷層 */
 .section-full{width:100%;margin:0;transform:none}
 .section-full .inner{max-width:1080px;margin:0 auto;padding:0 20px}
