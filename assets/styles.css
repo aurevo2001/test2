@@ -541,19 +541,26 @@ img,video{user-select:none;-webkit-user-drag:none;-webkit-touch-callout:none}
   .site-nav.open{transform:none !important}
 }
 
-/* REPLACE START — mobile drawer styles (right 1/3 screen) */
-@media(max-width:640px){
-  /* 關閉舊的 scaleY 下拉樣式 */
-  .site-nav{transform:none!important;display:block!important}
+/* REPLACE START — mobile drawer styles (right 1/3 screen, below header) */
+:root{--header-h:64px}
+@media(max-width:640px){:root{--header-h:60px}}
 
-  /* 右側抽屜（寬度 1/3 螢幕） */
+@media(max-width:640px){
+  /* 關閉你舊的下拉樣式（避免自動打開/蓋住） */
+  .site-nav{transform:none!important}
+
+  /* 右側抽屜：寬 1/3 螢幕、不透明、與 header 同色，從 header 下方開始 */
   .site-nav{
-    position:fixed;top:0;right:0;bottom:0;left:auto;
-    width:33.333vw;min-width:0;max-width:none;
-    background:var(--c-header);color:#fff;z-index:10001;
-    transform:translateX(100%);transition:transform .25s ease;
-    border-radius:12px 0 0 12px;box-shadow:0 12px 30px rgba(0,0,0,.28);
+    position:fixed;top:var(--header-h);right:0;bottom:0;left:auto;
+    width:33.333vw;min-width:0;
+    background:var(--c-header); /* 不透明、同 header 顏色 */
+    color:#fff;z-index:10001;
+    transform:translateX(100%); /* 預設關閉 */
+    transition:transform .25s ease;
+    border-radius:12px 0 0 0;
+    box-shadow:0 12px 30px rgba(0,0,0,.28);
     padding:10px 6px;
+    display:block; /* 讓 transform 生效但不佔位 */
   }
   .site-nav.open{transform:translateX(0)}
 
@@ -562,10 +569,12 @@ img,video{user-select:none;-webkit-user-drag:none;-webkit-touch-callout:none}
   .site-nav a:hover,.site-nav a:focus{opacity:1;background:rgba(255,255,255,.14)}
   .site-nav a.is-active{background:#fff;color:var(--c-header);font-weight:800}
 
-  /* 遮罩 */
+  /* 遮罩：也只從 header 下方開始，不蓋住 header */
   .menu-overlay{
-    position:fixed;inset:0;background:rgba(0,0,0,.35);
-    backdrop-filter:blur(2px);opacity:0;pointer-events:none;
+    position:fixed;top:var(--header-h);left:0;right:0;bottom:0;
+    background:rgba(0,0,0,.35);
+    backdrop-filter:blur(2px);
+    opacity:0;pointer-events:none;
     transition:opacity .2s ease;z-index:10000;
   }
   .menu-overlay.show{opacity:1;pointer-events:auto}
@@ -574,4 +583,4 @@ img,video{user-select:none;-webkit-user-drag:none;-webkit-touch-callout:none}
   .nav-toggle{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;font-size:24px;border:0;background:transparent;color:#fff}
   body.nav-open{overflow:hidden}
 }
-/* REPLACE END — mobile drawer styles (right 1/3 screen) */
+/* REPLACE END — mobile drawer styles (right 1/3 screen, below header) */
