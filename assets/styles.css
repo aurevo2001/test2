@@ -540,3 +540,38 @@ img,video{user-select:none;-webkit-user-drag:none;-webkit-touch-callout:none}
   .site-nav{transform:none !important}
   .site-nav.open{transform:none !important}
 }
+
+/* REPLACE START — mobile drawer styles (right 1/3 screen) */
+@media(max-width:640px){
+  /* 關閉舊的 scaleY 下拉樣式 */
+  .site-nav{transform:none!important;display:block!important}
+
+  /* 右側抽屜（寬度 1/3 螢幕） */
+  .site-nav{
+    position:fixed;top:0;right:0;bottom:0;left:auto;
+    width:33.333vw;min-width:0;max-width:none;
+    background:var(--c-header);color:#fff;z-index:10001;
+    transform:translateX(100%);transition:transform .25s ease;
+    border-radius:12px 0 0 12px;box-shadow:0 12px 30px rgba(0,0,0,.28);
+    padding:10px 6px;
+  }
+  .site-nav.open{transform:translateX(0)}
+
+  .site-nav ul{display:flex;flex-direction:column;gap:6px;margin:0;padding:12px}
+  .site-nav a{display:block;padding:12px 14px;border-radius:10px;text-decoration:none;color:#fff;opacity:.95}
+  .site-nav a:hover,.site-nav a:focus{opacity:1;background:rgba(255,255,255,.14)}
+  .site-nav a.is-active{background:#fff;color:var(--c-header);font-weight:800}
+
+  /* 遮罩 */
+  .menu-overlay{
+    position:fixed;inset:0;background:rgba(0,0,0,.35);
+    backdrop-filter:blur(2px);opacity:0;pointer-events:none;
+    transition:opacity .2s ease;z-index:10000;
+  }
+  .menu-overlay.show{opacity:1;pointer-events:auto}
+
+  /* 漢堡鍵顯示 */
+  .nav-toggle{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;font-size:24px;border:0;background:transparent;color:#fff}
+  body.nav-open{overflow:hidden}
+}
+/* REPLACE END — mobile drawer styles (right 1/3 screen) */
