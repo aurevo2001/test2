@@ -234,9 +234,16 @@ async function run(){
   for(const f of FILES){try{datas.push(await loadPath(f));}catch(e){console.error(e);}}
   if(datas.length<3){overlay.classList.add('hide');return;}
   const svgs=datas.map((d,i)=>buildSVG(d,i));
-  slots[0].appendChild(svgs[0]); await animateOne(svgs[0]);
-  slots[1].appendChild(svgs[1]); await animateOne(svgs[1]);
-  slots[2].appendChild(svgs[2]); await animateOne(svgs[2]);
+const IS_MOBILE = window.matchMedia('(max-width:640px)').matches;
+
+slots[0].appendChild(svgs[0]); await animateOne(svgs[0]);
+if(IS_MOBILE) svgs[0].style.display='none';         // ← 前一個隱藏
+
+slots[1].appendChild(svgs[1]); await animateOne(svgs[1]);
+if(IS_MOBILE) svgs[1].style.display='none';         // ← 前一個隱藏
+
+slots[2].appendChild(svgs[2]); await animateOne(svgs[2]); // 最後一個保持可見到蓋幕關閉
+
   overlay.classList.add('hide');
 }
 // idle helper（仍在同一個閉包，能取用 overlay/slots 等）
