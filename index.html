@@ -177,59 +177,41 @@
 /* REPLACE END */
 
 </style>
-<script>
-(function(){
-  const SPEED=0.8, FILES=['/assets/sign1_v2.svg','/assets/sign2_v2.svg','/assets/sign3_v2.svg']; 
+<!-- REPLACE START — 最終穩定版 Neon SVG 簽名動畫（整段覆蓋這個 <script>） -->
+<script>(function(){
+  const SPEED=0.8, FILES=['/assets/sign1_v2.svg','/assets/sign2_v2.svg','/assets/sign3_v2.svg'];
   const STROKE='#C5A387', OUTLINE='rgba(218,204,193,.08)', STROKE_W=8;
   const mount=document.getElementById('neon-svg-signature-mount'); if(!mount) return;
 
   const overlay=document.createElement('div'); overlay.id='neon-svg-overlay';
   const wrap=document.createElement('div'); wrap.className='neon-svg-wrap';
   const note=document.createElement('div'); note.className='neon-note'; note.textContent='點擊可跳過動畫';
-  const slots=[0,1,2].map(()=>{const s=document.createElement('div');s.className='neon-slot';wrap.appendChild(s);return s;});
+  const slots=[0,1,2].map(()=>{const s=document.createElement('div'); s.className='neon-slot'; wrap.appendChild(s); return s;});
   overlay.appendChild(wrap); overlay.appendChild(note); mount.replaceWith(overlay);
   overlay.addEventListener('click',()=>overlay.classList.add('hide'));
   wrap.style.animation='neonFlicker 2.8s ease-in-out infinite';
 
-  async function loadPath(url){
-    const txt=await fetch(url,{cache:'no-store'}).then(r=>r.text());
-    const doc=new DOMParser().parseFromString(txt,'image/svg+xml');
-    const path=doc.querySelector('path');
-    if(!path) throw new Error('SVG 無 path：'+url);
-    return {d:path.getAttribute('d')};
-  }
+  async function loadPath(url){ const txt=await fetch(url,{cache:'no-store'}).then(r=>r.text()); const doc=new DOMParser().parseFromString(txt,'image/svg+xml'); const path=doc.querySelector('path'); if(!path) throw new Error('SVG 無 path：'+url); return {d:path.getAttribute('d')}; }
 
-  /* REPLACE START — 手機加粗筆畫 */
-function buildSVG(dat,i){
-  const IS_MOBILE = window.matchMedia('(max-width:640px)').matches;
-  const W = IS_MOBILE ? (STROKE_W + 4) : STROKE_W;   // 手機筆畫+4，提升可讀性
-  const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');
-  svg.setAttribute('class','neon-svg');
-  svg.setAttribute('viewBox','0 0 800 800');
-  svg.setAttribute('preserveAspectRatio','xMidYMid meet');
-  svg.innerHTML=`<defs>
-    <filter id="glow-${i}" x="-50%" y="-50%" width="200%" height="200%">
-      <feGaussianBlur stdDeviation="2.2" result="b1"/><feMerge><feMergeNode in="b1"/><feMergeNode in="SourceGraphic"/></feMerge>
-    </filter>
-  </defs>
-  <path fill="none" stroke="${OUTLINE}" vector-effect="non-scaling-stroke" stroke-width="${W+2}" d="${dat.d}"/>
-  <path id="stroke-${i}" fill="none" stroke="${STROKE}" stroke-linecap="round" stroke-linejoin="round"
-    vector-effect="non-scaling-stroke" stroke-width="${W}" filter="url(#glow-${i})" d="${dat.d}"/>`;
-  return svg;
-}
-/* REPLACE END */
+  function buildSVG(dat,i){
+    const IS_MOBILE=window.matchMedia('(max-width:640px)').matches;
+    const W=IS_MOBILE?(STROKE_W+4):STROKE_W;
+    const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');
+    svg.setAttribute('class','neon-svg'); svg.setAttribute('viewBox','0 0 800 800'); svg.setAttribute('preserveAspectRatio','xMidYMid meet');
+    svg.innerHTML=`<defs><filter id="glow-${i}" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="2.2" result="b1"/><feMerge><feMergeNode in="b1"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+    <path fill="none" stroke="${OUTLINE}" vector-effect="non-scaling-stroke" stroke-width="${W+2}" d="${dat.d}"/>
+    <path id="stroke-${i}" fill="none" stroke="${STROKE}" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke" stroke-width="${W}" filter="url(#glow-${i})" d="${dat.d}"/>`;
+    return svg;
+  }
 
   function animateOne(svg){
     return new Promise(resolve=>{
       svg.style.display='block';
       requestAnimationFrame(()=>{
         svg.style.opacity='1';
-        const path=svg.querySelector('path[id^="stroke-"]');
-        if(!path){resolve();return;}
+        const path=svg.querySelector('path[id^="stroke-"]'); if(!path){resolve();return;}
         const L=Math.max(0.001,path.getTotalLength()*2);
-        path.style.transition='none';
-        path.style.strokeDasharray=L+0.1;
-        path.style.strokeDashoffset=L+0.1;
+        path.style.transition='none'; path.style.strokeDasharray=L+0.1; path.style.strokeDashoffset=L+0.1;
         requestAnimationFrame(()=>{
           const dur=Math.max(1200,Math.min(2800,1800/SPEED));
           path.style.transition=`stroke-dashoffset ${dur}ms ease-in-out`;
@@ -240,52 +222,41 @@ function buildSVG(dat,i){
     });
   }
 
-// REPLACE START — run()：可部分載入、手機單字滿版、帶備援
-async function run(){
-  const loaded=[];
-  for(const f of FILES){
-    try{ loaded.push(await loadPath(f)); }catch(e){ console.error('[SVG load fail]', f, e); }
+  async function run(){
+    const loaded=[];
+    for(const f of FILES){ try{ loaded.push(await loadPath(f)); }catch(e){ console.error('[SVG load fail]',f,e); } }
+
+    const IS_MOBILE=window.matchMedia('(max-width:640px)').matches;
+
+    if(loaded.length===0){
+      const fallback=document.createElement('div');
+      fallback.style.cssText='color:#DACCC1;font-weight:800;font-size:9vw;letter-spacing:.2em;text-align:center';
+      fallback.textContent='趙 憶 憫';
+      slots[1].appendChild(fallback);
+      setTimeout(()=>overlay.classList.add('hide'),900);
+      return;
+    }
+
+    if(IS_MOBILE){
+      const last=loaded[loaded.length-1];
+      const svg=buildSVG(last,99);
+      slots[1].appendChild(svg);
+      await animateOne(svg);
+      setTimeout(()=>overlay.classList.add('hide'),600);
+      return;
+    }
+
+    for(let i=0;i<loaded.length;i++){
+      const svg=buildSVG(loaded[i],i);
+      slots[i%3].appendChild(svg);
+      await animateOne(svg);
+    }
+    overlay.classList.add('hide');
   }
 
-  const IS_MOBILE = window.matchMedia('(max-width:640px)').matches;
-
-  // 完全載不到：出備援文字，不直接 hide()
-  if(loaded.length===0){
-    const fallback=document.createElement('div');
-    fallback.style.cssText='color:#DACCC1;font-weight:800;font-size:9vw;letter-spacing:.2em;text-align:center';
-    fallback.textContent='趙 憶 憫';
-    slots[1].appendChild(fallback);
-    setTimeout(()=>overlay.classList.add('hide'), 900);
-    return;
-  }
-
-  if(IS_MOBILE){
-    const last = loaded[loaded.length-1];   // 播最後一個字
-    const svg  = buildSVG(last, 99);
-    slots[1].appendChild(svg);
-    await animateOne(svg);
-    setTimeout(()=>overlay.classList.add('hide'), 600);
-    return;
-  }
-
-  // 桌機：照順序把能載到的都播
-  for(let i=0;i<loaded.length;i++){
-    const svg=buildSVG(loaded[i], i);
-    slots[i%3].appendChild(svg);
-    // 逐個動畫（避免同時播放太亮）
-    // 最後一個播完關蓋幕
-    await animateOne(svg);
-  }
-  overlay.classList.add('hide');
-}
-// REPLACE END
-
-</script>
-<!-- REPLACE START — 啟動動畫（不要等 idle，進站就跑） -->
-<script>
-// 若你的檔案裡前面已經宣告了 run()，直接啟動它
-window.addEventListener('load', function(){ try{ run(); }catch(e){ console.error(e); } });
-</script>
+  // 這裡在同一個作用域內啟動 → 不會再出現 run 未定義
+  window.addEventListener('load',run);
+})();</script>
 <!-- REPLACE END -->
 
   <!-- 年份 -->
