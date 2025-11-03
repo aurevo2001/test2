@@ -159,29 +159,13 @@
 #neon-svg-overlay .neon-svg-wrap{transform:translateX(var(--neon-shift-desktop))}
 @media(max-width:1024px){#neon-svg-overlay .neon-svg-wrap{transform:translateX(var(--neon-shift-tablet))}}
 
-/* REPLACE START — 手機：全螢幕置中 + 強制放大 */
-@media(max-width:640px){
-  #neon-svg-overlay{background:rgba(18,22,26,.86);backdrop-filter:none}
-  #neon-svg-overlay .neon-svg-wrap{display:grid;place-items:center;gap:12px;width:100vw;transform:none !important}
-  .neon-slot{width:100vw;display:grid;place-items:center}
-  .neon-svg{
-    width:100vw !important;height:auto !important;
-    transform:scale(3.2);           /* 想更大就調這個數字，例如 3.6 */
-    transform-origin:center center; /* 以中心縮放，避免被切到 */
-    display:block !important;       /* 保證可見 */
-    opacity:.96;
-    filter:drop-shadow(0 0 2px #DACCC1) drop-shadow(0 0 6px #C5A387);
-  }
-  .neon-note{font-size:4.4vw}
-}
-/* REPLACE END */
-
 </style>
 <!-- REPLACE START — 最終穩定版 Neon SVG 簽名動畫（整段覆蓋這個 <script>） -->
 <script>(function(){
   const SPEED=0.8, FILES=['/assets/sign1_v2.svg','/assets/sign2_v2.svg','/assets/sign3_v2.svg'];
   const STROKE='#C5A387', OUTLINE='rgba(218,204,193,.08)', STROKE_W=8;
   const mount=document.getElementById('neon-svg-signature-mount'); if(!mount) return;
+  if(window.matchMedia('(max-width:640px)').matches){ mount.remove(); return; }
 
   const overlay=document.createElement('div'); overlay.id='neon-svg-overlay';
   const wrap=document.createElement('div'); wrap.className='neon-svg-wrap';
@@ -234,15 +218,6 @@
       fallback.textContent='趙 憶 憫';
       slots[1].appendChild(fallback);
       setTimeout(()=>overlay.classList.add('hide'),900);
-      return;
-    }
-
-    if(IS_MOBILE){
-      const last=loaded[loaded.length-1];
-      const svg=buildSVG(last,99);
-      slots[1].appendChild(svg);
-      await animateOne(svg);
-      setTimeout(()=>overlay.classList.add('hide'),600);
       return;
     }
 
