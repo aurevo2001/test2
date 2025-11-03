@@ -11,10 +11,12 @@
 <!-- 避免被 iframe 夾帶（JS 也會再保險一次） -->
 <!-- APPEND END -->
   <meta name="description" content="官方首頁"/>
-  <!-- REPLACE START — 非阻塞樣式 + Hero 預載 -->
-  <link rel="preload" href="/assets/styles.css" as="style" onload="this.onload=null;this.rel='stylesheet'"/><noscript><link rel="stylesheet" href="/assets/styles.css"/></noscript>
-  <link rel="preload" as="image" href="images/home_hero.jpg" fetchpriority="high"/>
-  <!-- REPLACE END -->
+<!-- REPLACE START — 非阻塞樣式 + Hero 預載（穩定版，無 FOUC） -->
+<link rel="preload" href="/assets/styles.css" as="style" fetchpriority="high">
+<link rel="stylesheet" href="/assets/styles.css" fetchpriority="high">
+<link rel="preload" as="image" href="images/home_hero.jpg" fetchpriority="high">
+<!-- REPLACE END -->
+
 </head>  
 <body class="home-page bg-layer">
   <!-- Header -->
@@ -177,7 +179,7 @@
 </style>
 <script>
 (function(){
-  const SPEED=0.8, FILES=['assets/sign1_v2.svg','assets/sign2_v2.svg','assets/sign3_v2.svg']; 
+  const SPEED=0.8, FILES=['/assets/sign1_v2.svg','/assets/sign2_v2.svg','/assets/sign3_v2.svg']; 
   const STROKE='#C5A387', OUTLINE='rgba(218,204,193,.08)', STROKE_W=8;
   const mount=document.getElementById('neon-svg-signature-mount'); if(!mount) return;
 
@@ -238,31 +240,54 @@ function buildSVG(dat,i){
     });
   }
 
-// REPLACE START — run()：手機只播最後一個字且滿版，桌機三連播
+// REPLACE START — run()：可部分載入、手機單字滿版、帶備援
 async function run(){
-  const datas=[];
-  for(const f of FILES){ try{ datas.push(await loadPath(f)); } catch(e){ console.error(e); } }
-  if(datas.length<3){ overlay.classList.add('hide'); return; }
+  const loaded=[];
+  for(const f of FILES){
+    try{ loaded.push(await loadPath(f)); }catch(e){ console.error('[SVG load fail]', f, e); }
+  }
 
   const IS_MOBILE = window.matchMedia('(max-width:640px)').matches;
 
+  // 完全載不到：出備援文字，不直接 hide()
+  if(loaded.length===0){
+    const fallback=document.createElement('div');
+    fallback.style.cssText='color:#DACCC1;font-weight:800;font-size:9vw;letter-spacing:.2em;text-align:center';
+    fallback.textContent='趙 憶 憫';
+    slots[1].appendChild(fallback);
+    setTimeout(()=>overlay.classList.add('hide'), 900);
+    return;
+  }
+
   if(IS_MOBILE){
-    const svg = buildSVG(datas[2], 2);           // 只播最後一個字
-    slots[1].appendChild(svg);                   // 放中間 slot
+    const last = loaded[loaded.length-1];   // 播最後一個字
+    const svg  = buildSVG(last, 99);
+    slots[1].appendChild(svg);
     await animateOne(svg);
     setTimeout(()=>overlay.classList.add('hide'), 600);
     return;
   }
 
-  const svgs = datas.map((d,i)=>buildSVG(d,i));  // 桌機三連播
-  slots[0].appendChild(svgs[0]); await animateOne(svgs[0]);
-  slots[1].appendChild(svgs[1]); await animateOne(svgs[1]);
-  slots[2].appendChild(svgs[2]); await animateOne(svgs[2]);
+  // 桌機：照順序把能載到的都播
+  for(let i=0;i<loaded.length;i++){
+    const svg=buildSVG(loaded[i], i);
+    slots[i%3].appendChild(svg);
+    // 逐個動畫（避免同時播放太亮）
+    // 最後一個播完關蓋幕
+    await animateOne(svg);
+  }
   overlay.classList.add('hide');
 }
 // REPLACE END
+
+</script>
+<!-- REPLACE START — 啟動動畫（不要等 idle，進站就跑） -->
+<script>
+// 若你的檔案裡前面已經宣告了 run()，直接啟動它
+window.addEventListener('load', function(){ try{ run(); }catch(e){ console.error(e); } });
 </script>
 <!-- REPLACE END -->
+
   <!-- 年份 -->
   <script>!function(){var y=document.getElementById('y');if(y){y.textContent=(new Date).getFullYear();}}();</script>
   <!-- REPLACE START — 圖片 lazy/async（Hero 例外） -->
