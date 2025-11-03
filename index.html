@@ -157,22 +157,21 @@
 #neon-svg-overlay .neon-svg-wrap{transform:translateX(var(--neon-shift-desktop))}
 @media(max-width:1024px){#neon-svg-overlay .neon-svg-wrap{transform:translateX(var(--neon-shift-tablet))}}
 
-/* REPLACE START — 手機：放大整體簽名，置中顯示 */
+/* REPLACE START — 手機：全螢幕置中 + 強制放大 */
 @media(max-width:640px){
   #neon-svg-overlay{background:rgba(18,22,26,.86);backdrop-filter:none}
   #neon-svg-overlay .neon-svg-wrap{display:grid;place-items:center;gap:12px;width:100vw;transform:none !important}
   .neon-slot{width:100vw;display:grid;place-items:center}
   .neon-svg{
-    width:100vw;height:auto;
-    transform:scale(2.6);            /* ← 這裡是「放大 2.6 倍」的關鍵 */
-    transform-origin:center center;  /* 以中心當作縮放基準，避免被擠到角落 */
+    width:100vw !important;height:auto !important;
+    transform:scale(3.2);           /* 想更大就調這個數字，例如 3.6 */
+    transform-origin:center center; /* 以中心縮放，避免被切到 */
+    display:block !important;       /* 保證可見 */
     opacity:.96;
     filter:drop-shadow(0 0 2px #DACCC1) drop-shadow(0 0 6px #C5A387);
   }
   .neon-note{font-size:4.4vw}
 }
-/* REPLACE END */
-
 /* REPLACE END */
 
 </style>
@@ -239,29 +238,29 @@ function buildSVG(dat,i){
     });
   }
 
-// 主控制：逐步插入 + 逐步動畫（延後到載入＋idle 再跑，降低 TBT）
+// REPLACE START — run()：手機只播最後一個字且滿版，桌機三連播
 async function run(){
   const datas=[];
-  for(const f of FILES){try{datas.push(await loadPath(f));}catch(e){console.error(e);}}
-  if(datas.length<3){overlay.classList.add('hide');return;}
-  const svgs=datas.map((d,i)=>buildSVG(d,i));
-const IS_MOBILE = window.matchMedia('(max-width:640px)').matches;
+  for(const f of FILES){ try{ datas.push(await loadPath(f)); } catch(e){ console.error(e); } }
+  if(datas.length<3){ overlay.classList.add('hide'); return; }
 
-slots[0].appendChild(svgs[0]); await animateOne(svgs[0]);
-if(IS_MOBILE) svgs[0].style.display='none';         // ← 前一個隱藏
+  const IS_MOBILE = window.matchMedia('(max-width:640px)').matches;
 
-slots[1].appendChild(svgs[1]); await animateOne(svgs[1]);
-if(IS_MOBILE) svgs[1].style.display='none';         // ← 前一個隱藏
+  if(IS_MOBILE){
+    const svg = buildSVG(datas[2], 2);           // 只播最後一個字
+    slots[1].appendChild(svg);                   // 放中間 slot
+    await animateOne(svg);
+    setTimeout(()=>overlay.classList.add('hide'), 600);
+    return;
+  }
 
-slots[2].appendChild(svgs[2]); await animateOne(svgs[2]); // 最後一個保持可見到蓋幕關閉
-
+  const svgs = datas.map((d,i)=>buildSVG(d,i));  // 桌機三連播
+  slots[0].appendChild(svgs[0]); await animateOne(svgs[0]);
+  slots[1].appendChild(svgs[1]); await animateOne(svgs[1]);
+  slots[2].appendChild(svgs[2]); await animateOne(svgs[2]);
   overlay.classList.add('hide');
 }
-// idle helper（仍在同一個閉包，能取用 overlay/slots 等）
-function onIdle(fn){if('requestIdleCallback' in window){requestIdleCallback(fn,{timeout:1500});}else{setTimeout(fn,900);}}
-window.addEventListener('load',()=>onIdle(run));
-
-})();
+// REPLACE END
 </script>
 <!-- REPLACE END -->
   <!-- 年份 -->
