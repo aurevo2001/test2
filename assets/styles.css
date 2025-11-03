@@ -63,16 +63,10 @@ p{line-height:1.75;margin:0 0 12px}
 .gallery{column-count:3;column-gap:8px}
 .card-vert{display:inline-block;width:100%;margin:0 0 8px;break-inside:avoid}
 .card-vert figure{margin:0}
-.card-vert img{display:block;width:100%;height:auto;object-fit:cover;background:#f59e0b;border-radius:6px}
+.card-vert img{display:block;width:100%;height:auto;object-fit:cover;background:transparent;border-radius:6px}
 .card-vert video{display:block;width:100%;height:auto;object-fit:cover;background:#000;border-radius:6px}
 .card-vert figcaption{text-align:center;font-weight:700;padding:6px 4px;background:transparent}
 .card-vert a{display:block;text-decoration:none;color:inherit}
-
-/* Lightbox */
-.lightbox{position:fixed;inset:0;background:rgba(0,0,0,.75);display:none;z-index:100}
-.lightbox:target{display:flex;align-items:center;justify-content:center}
-.lightbox img{max-width:min(92vw,1400px);max-height:90vh;width:auto;height:auto;box-shadow:0 10px 40px rgba(0,0,0,.5);border-radius:10px;background:#fff}
-.lightbox a.close{position:fixed;top:14px;right:18px;color:#fff;font-size:28px;text-decoration:none}
 
 /* 重點介紹 */
 .party-section{padding:80px 0 100px;text-align:center;position:relative;background:linear-gradient(180deg,rgba(255,255,255,.8),rgba(250,247,243,.9))}
@@ -94,17 +88,6 @@ p{line-height:1.75;margin:0 0 12px}
 .icon-btn{width:38px;height:38px;display:inline-flex;align-items:center;justify-content:center;color:#fff;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.18);border-radius:50%;text-decoration:none;transition:transform .18s ease,background .18s ease,border-color .18s ease,color .18s ease}
 .icon-btn:hover{transform:translateY(-1px);background:rgba(255,255,255,.22);border-color:rgba(255,255,255,.35)}
 .icon-btn svg{width:20px;height:20px;display:block}
-
-/* RWD：共用 */
-@media(max-width:980px){.trio{grid-template-columns:1fr}.gallery{column-count:2}}
-@media(max-width:640px){
-  .nav-toggle{display:inline-block}
-  .site-nav{position:fixed;inset:64px 0 auto 0;background:var(--c-header);transform:translateY(-8px) scaleY(0);transform-origin:top;transition:.2s;box-shadow:0 12px 30px rgba(0,0,0,.24)}
-  .site-nav.open{transform:translateY(0) scaleY(1)}
-  .site-nav ul{flex-direction:column;padding:12px}
-  .site-nav a{padding:12px 14px;border-radius:8px}
-  .gallery{column-count:1}
-}
 
 /* =========================
    assets/portfolio.css｜scope: .portfolio-page
@@ -183,12 +166,7 @@ p{line-height:1.75;margin:0 0 12px}
 .merch-page .merch-card .desc{margin:0;opacity:.85}
 .merch-page .cute-cta{display:flex;gap:12px;justify-content:center;margin:18px 0 2px}
 
-/* Merch Lightbox */
-.lightbox{position:fixed;inset:0;display:none;z-index:100;background:rgba(0,0,0,.85);cursor:zoom-out}
-.lightbox:target{display:block}
-.lightbox .close{position:absolute;inset:0;display:block;z-index:2;text-decoration:none}
-.lightbox img{position:relative;z-index:1;max-width:min(92vw,1400px);max-height:90vh;width:auto;height:auto;display:block;margin:auto;box-shadow:0 10px 40px rgba(0,0,0,.5);border-radius:10px;background:#fff}
-.lightbox .close::after{content:"✕";position:absolute;top:14px;right:18px;color:#fff;font-size:24px;opacity:.9}
+
 @media(max-width:980px){.merch-page .merch-grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:640px){
   .merch-page .merch-hero .hero-media img{aspect-ratio:4/3}
@@ -251,62 +229,6 @@ p{line-height:1.75;margin:0 0 12px}
   .contact-form .grid{grid-template-columns:1fr}
 }
 
-/* APPEND START — Mobile hardening (≤640px, 最高規格縮小版體驗) */
-@media (max-width:640px){
-  html,body{-webkit-text-size-adjust:100%}
-  .container{padding:0 16px}
-  /* Header */
-  .site-header{position:sticky;top:0;z-index:30;background:var(--c-header)}
-  .site-header .container{height:60px}
-  .logo-img{width:26px;height:26px}
-  .nav-toggle{display:inline-block}
-  .site-nav{position:fixed;inset:60px 0 0 0;background:var(--c-header);transform:translateY(-8px) scaleY(0);transform-origin:top;transition:.2s;box-shadow:0 12px 30px rgba(0,0,0,.24)}
-  .site-nav.open{transform:translateY(0) scaleY(1)}
-  .site-nav ul{flex-direction:column;padding:12px}
-  .site-nav a{padding:14px 16px;border-radius:10px;font-weight:700}
-  /* Hero（圖片改 4:3、文字縮放與留白） */
-  .hero.media-center img{aspect-ratio:4/3}
-  .hero.media-center .hero-overlay{padding:12px}
-  .hero.media-center .hero-title{font-size:clamp(18px,4.6vw,22px);padding:14px 16px;border-radius:12px}
-  /* Trio（首頁三圖） */
-  .trio{grid-template-columns:1fr;gap:10px}
-  .trio .tile{border-radius:16px}
-  .tile .cap{max-width:92%;bottom:10px;padding:10px 12px}
-  .tile .cap::before{clip-path:polygon(0 0,88% 0,96% 50%,88% 100%,0 100%)}
-  /* Gallery（統一單欄、字體可讀） */
-  .gallery,.portfolio-page .gallery{column-count:1;column-gap:8px}
-  .card-vert{margin:0 0 8px}
-  .card-vert figcaption,.portfolio-page .card-vert figcaption{font-size:14px;opacity:.95}
-  /* Party / 重點介紹區塊 */
-  .party-section{padding:48px 0 60px}
-  .oct{width:min(92vw,520px)}
-  .party p{font-size:15px;padding:10px 14px;border-radius:10px}
-  /* Portfolio Hero/分類列 */
-  .portfolio-page .pf-hero{padding:24px 0 12px}
-  .portfolio-page .pf-hero h1{font-size:clamp(26px,6.5vw,34px)}
-  .portfolio-page .cat-nav{gap:18px}
-  /* About */
-  .about-page .about-hero{padding:20px 0 12px}
-  .ticket-photo{width:92vw;--cut:38px}
-  .about-page .about-intros{padding:6px 0 40px}
-  .about-page .about-extra .inner{gap:36px}
-  /* Merch */
-  .merch-page .merch-hero .hero-media img{aspect-ratio:4/3}
-  .merch-page .merch-cta{flex-direction:column;gap:10px}
-  .merch-page .btn-cute{min-width:0;width:100%;text-align:center}
-  .merch-page .merch-grid{grid-template-columns:1fr;gap:12px}
-  .lightbox img{max-width:96vw;max-height:88vh}
-  /* Contact */
-  .contact-page .contact-hero{padding:26px 0 12px}
-  .contact-layout,.contact-form .grid{grid-template-columns:1fr}
-  .contact-form input,.contact-form select,.contact-form textarea{min-height:50px}
-  .contact-form .actions{flex-direction:column}
-  .contact-form .btn-primary,.contact-form .btn-secondary{width:100%;text-align:center}
-  /* Footer（觸控放大） */
-  .site-footer .container{gap:14px}
-  .social-icons{gap:12px}
-  .icon-btn{width:44px;height:44px}
-}
 /* 超小螢幕保護（≤360px）：字距縮放、間距再收斂 */
 @media (max-width:360px){
   .hero.media-center .hero-title{font-size:16px}
@@ -462,12 +384,11 @@ html,body{margin:0;padding:0;overflow-x:hidden}
 .portfolio-page .gallery .card-vert:hover figcaption{opacity:1;transform:translateY(0)}
 
 /* REPLACE START — Global Lightbox unifier (site-wide click-to-zoom) */
-.lightbox{display:none!important;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.86);align-items:center;justify-content:center;cursor:zoom-out}
+.lightbox{display:none!important;position:fixed;inset:0;z-index:10002;background:rgba(0,0,0,.86);align-items:center;justify-content:center;cursor:zoom-out}
 .lightbox:target{display:flex!important}
 .lightbox img{max-width:min(92vw,1400px);max-height:90vh;width:auto;height:auto;border-radius:10px;box-shadow:0 20px 40px rgba(0,0,0,.5)}
 .lightbox .close{position:absolute;inset:0;display:block;text-decoration:none}
 .lightbox .close::after{content:"✕";position:absolute;top:14px;right:18px;color:#fff;font-size:24px;opacity:.9}
-/* 讓 merch 先前那段 .lightbox:target{display:block} 全部失效 */
 .merch-page .lightbox:target{display:flex!important}
 /* REPLACE END — Global Lightbox unifier */
 
@@ -524,85 +445,22 @@ img,video{user-select:none;-webkit-user-drag:none;-webkit-touch-callout:none}
 @media(max-width:640px){.lightbox::before{font-size:20px;opacity:.18}}
 /* 不影響你原本的 lightbox 圖/影片尺寸與操作 */
 /* APPEND END */
-@media(max-width:980px){
-  .site-header{position:sticky;top:0;z-index:10000}
-  .nav-toggle{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;font-size:24px;border:0;background:transparent;color:inherit}
-  .site-nav{position:fixed;top:56px;right:12px;display:none;z-index:10001;background:rgba(255,255,255,.96);backdrop-filter:saturate(130%) blur(6px);border-radius:14px;box-shadow:0 10px 30px rgba(0,0,0,.18);padding:12px 6px}
-  .site-nav.open{display:block}
-  .site-nav ul{list-style:none;margin:0;padding:0;min-width:180px}
-  .site-nav li{margin:0}
-  .site-nav a{display:block;padding:12px 16px;border-radius:10px;text-decoration:none;color:inherit;white-space:nowrap}
-  .site-nav a:active,.site-nav a:focus,.site-nav a:hover{background:rgba(0,0,0,.06)}
-  body.nav-open{overflow:hidden}
-}
-/* PATCH — unify mobile nav, kill old scaleY system */
-@media(max-width:640px){
-  .site-nav{transform:none !important}
-  .site-nav.open{transform:none !important}
-}
 
-/* REPLACE START — mobile drawer styles (right 1/3 screen, below header) */
+/* REPLACE START — FINAL Mobile Drawer (right 1/3, below header) */
 :root{--header-h:64px}
 @media(max-width:640px){:root{--header-h:60px}}
-
-@media(max-width:640px){
-  /* 關閉你舊的下拉樣式（避免自動打開/蓋住） */
-  .site-nav{transform:none!important}
-
-  /* 右側抽屜：寬 1/3 螢幕、不透明、與 header 同色，從 header 下方開始 */
-  .site-nav{
-    position:fixed;top:var(--header-h);right:0;bottom:0;left:auto;
-    width:33.333vw;min-width:0;
-    background:var(--c-header); /* 不透明、同 header 顏色 */
-    color:#fff;z-index:10001;
-    transform:translateX(100%); /* 預設關閉 */
-    transition:transform .25s ease;
-    border-radius:12px 0 0 0;
-    box-shadow:0 12px 30px rgba(0,0,0,.28);
-    padding:10px 6px;
-    display:block; /* 讓 transform 生效但不佔位 */
-  }
-  .site-nav.open{transform:translateX(0)}
-
-  .site-nav ul{display:flex;flex-direction:column;gap:6px;margin:0;padding:12px}
+@media(max-width:980px){
+  .nav-toggle{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;font-size:24px;border:0;background:transparent;color:#fff}
+  .site-header{position:sticky;top:0;z-index:10000;background:var(--c-header)}
+  .site-nav{position:fixed;top:var(--header-h);right:0;bottom:0;left:auto;width:33.333vw;min-width:260px;max-width:420px;background:var(--c-header);color:#fff;z-index:10001;transform:translateX(100%);transition:transform .25s ease;border-radius:12px 0 0 0;box-shadow:0 12px 30px rgba(0,0,0,.28);padding:10px 6px;display:block;will-change:transform}
+  body.nav-open .site-nav{transform:translateX(0)}
+  .site-nav ul{list-style:none;margin:0;padding:12px;display:flex;flex-direction:column;gap:6px}
   .site-nav a{display:block;padding:12px 14px;border-radius:10px;text-decoration:none;color:#fff;opacity:.95}
   .site-nav a:hover,.site-nav a:focus{opacity:1;background:rgba(255,255,255,.14)}
   .site-nav a.is-active{background:#fff;color:var(--c-header);font-weight:800}
-
-  /* 遮罩：也只從 header 下方開始，不蓋住 header */
-  .menu-overlay{
-    position:fixed;top:var(--header-h);left:0;right:0;bottom:0;
-    background:rgba(0,0,0,.35);
-    backdrop-filter:blur(2px);
-    opacity:0;pointer-events:none;
-    transition:opacity .2s ease;z-index:10000;
-  }
+  .menu-overlay{position:fixed;top:var(--header-h);left:0;right:0;bottom:0;background:rgba(0,0,0,.35);backdrop-filter:blur(2px);opacity:0;pointer-events:none;transition:opacity .2s ease;z-index:10000}
   .menu-overlay.show{opacity:1;pointer-events:auto}
-
-  /* 漢堡鍵顯示 */
-  .nav-toggle{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;font-size:24px;border:0;background:transparent;color:#fff}
   body.nav-open{overflow:hidden}
 }
-/* REPLACE END — mobile drawer styles (right 1/3 screen, below header) */
-/* REPLACE START — Mobile Nav Hard Override (place at file END) */
-@media (max-width:980px){
-  /* 反衝突：把舊版會撐滿/鎖定的屬性全拔掉 */
-  .site-nav{all:unset;position:fixed;top:0;right:0;height:100dvh;width:33.333vw;min-width:280px;max-width:420px;display:flex;align-items:flex-start;justify-content:center;padding-top:72px;background:#121212;color:#f5f5f5;box-shadow:-20px 0 40px rgba(0,0,0,.35);border-left:1px solid rgba(255,255,255,.06);transform:translateX(100%)!important;transition:transform .32s ease!important;z-index:1001}
-  .site-header{position:sticky;top:0;z-index:1000;background:#111;border-bottom:1px solid rgba(255,255,255,.06)}
-  .nav-toggle{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;font-size:20px;border:0;background:transparent;color:#fff;cursor:pointer}
-  .site-nav ul{list-style:none;margin:0;padding:0;width:100%}
-  .site-nav li{margin:0}
-  .site-nav a{display:block;padding:16px 24px;font-size:18px;line-height:1.3;color:#f5f5f5;text-decoration:none}
-  .site-nav a:is(:hover,:focus){background:rgba(255,255,255,.06)}
-  body.nav-open .site-nav{transform:translateX(0)!important}
-  #navOverlay{position:fixed;inset:0;background:rgba(0,0,0,.45);opacity:0;pointer-events:none;transition:opacity .25s ease;z-index:1000}
-  body.nav-open{overflow:hidden}
-  body.nav-open #navOverlay{opacity:1;pointer-events:auto}
-}
-/* 桌機維持水平選單 */
-@media (min-width:981px){
-  .nav-toggle{display:none}
-  .site-nav{all:unset;position:static;display:block;transform:none!important;background:transparent;box-shadow:none;border:0}
-  #navOverlay{display:none}
-}
-/* REPLACE END — Mobile Nav Hard Override */
+@media(min-width:981px){.nav-toggle{display:none}.menu-overlay{display:none}}
+/* REPLACE END — FINAL Mobile Drawer */
