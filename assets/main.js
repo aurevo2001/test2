@@ -4,7 +4,7 @@
   var nav=document.querySelector('.site-nav');
   var overlay=document.getElementById('menuOverlay');
   if(!btn||!nav||!overlay) return;
-
+ 
   function open(){ document.body.classList.add('nav-open'); overlay.classList.add('show'); }
   function close(){ overlay.classList.remove('show'); document.body.classList.remove('nav-open'); }
 
