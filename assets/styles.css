@@ -446,35 +446,51 @@ img,video{user-select:none;-webkit-user-drag:none;-webkit-touch-callout:none}
 /* 不影響你原本的 lightbox 圖/影片尺寸與操作 */
 /* APPEND END */
 
-/* REPLACE START — FINAL Mobile Drawer (right 1/3, below header | fixed color | no blur) */
+/* REPLACE START — FINAL Mobile Drawer (Aurevo 版) */
 :root{--header-h:64px}
 @media(max-width:640px){:root{--header-h:60px}}
-@media(max-width:980px){
-  /* header 固定 */
-  .site-header{position:sticky;top:0;z-index:10000;background:var(--c-header);backdrop-filter:none!important;filter:none!important}
 
-  /* 漢堡按鈕 */
+@media(max-width:980px){
+  /* 漢堡鍵 */
   .nav-toggle{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;font-size:24px;border:0;background:transparent;color:#fff}
 
-  /* 抽屜本體 */
-  .site-nav{position:fixed;top:var(--header-h);right:0;bottom:0;left:auto;width:33.333vw;min-width:260px;max-width:420px;background:var(--c-header)!important;color:#fff!important;z-index:10050!important;transform:translateX(100%);transition:transform .25s ease;border-radius:12px 0 0 0;box-shadow:-12px 0 32px rgba(0,0,0,.28);padding:10px 6px;display:block;will-change:transform;filter:none!important;backdrop-filter:none!important}
+  /* Header 固定＋同色 */
+  .site-header{position:sticky;top:0;z-index:10000;background:var(--c-header);color:#fff}
+
+  /* 右側抽屜（顏色=header；無模糊） */
+  .site-nav{
+    position:fixed;top:var(--header-h);right:0;bottom:0;left:auto;
+    width:clamp(260px,33.333vw,420px);
+    background:var(--c-header);color:#fff;
+    z-index:10002;transform:translateX(100%);will-change:transform;
+    transition:transform .25s ease;overflow:auto;-webkit-overflow-scrolling:touch;
+    box-shadow:-12px 0 32px rgba(0,0,0,.28);border-left:1px solid rgba(255,255,255,.08);
+    border-radius:12px 0 0 0; /* 上角同你截圖 */
+  }
   body.nav-open .site-nav{transform:translateX(0)}
 
-  /* 選單文字 */
-  .site-nav ul{list-style:none;margin:0;padding:12px;display:flex;flex-direction:column;gap:6px;background:var(--c-header)!important}
-  .site-nav a{display:block;padding:12px 14px;border-radius:10px;text-decoration:none;color:#fff!important;opacity:1!important}
-  .site-nav a:hover,.site-nav a:focus{background:rgba(255,255,255,.16)!important}
-  .site-nav a.is-active{background:#fff!important;color:var(--c-header)!important;font-weight:800}
-
-  /* 遮罩層 */
-  .menu-overlay{position:fixed;top:var(--header-h);left:0;right:0;bottom:0;background:rgba(0,0,0,.45)!important;backdrop-filter:none!important;opacity:0;pointer-events:none;transition:opacity .2s ease;z-index:10000!important}
+  /* 只覆蓋內容區，不覆蓋抽屜 → 抽屜可點 */
+  .menu-overlay{
+    position:fixed;top:var(--header-h);left:0;bottom:0;
+    right:clamp(260px,33.333vw,420px); /* 空出抽屜寬度 */
+    background:rgba(0,0,0,.45);backdrop-filter:blur(2px);
+    opacity:0;pointer-events:none;transition:opacity .2s ease;z-index:10001;
+  }
   .menu-overlay.show{opacity:1;pointer-events:auto}
 
-  /* 鎖卷軸 */
+  /* 抽屜內排版＆觸控命中區 */
+  .site-nav ul{list-style:none;margin:0;padding:8px 8px 16px;display:flex;flex-direction:column;gap:6px}
+  .site-nav a{
+    display:block;padding:14px 16px;border-radius:10px;
+    text-decoration:none;color:#fff!important;font-weight:800;letter-spacing:.02em;opacity:1
+  }
+  .site-nav a:hover,.site-nav a:focus{background:rgba(255,255,255,.12);color:#fff}
+  .site-nav a.is-active{background:#fff;color:var(--c-header)!important}
   body.nav-open{overflow:hidden}
 }
 @media(min-width:981px){.nav-toggle{display:none}.menu-overlay{display:none}}
-/* REPLACE END — FINAL Mobile Drawer */
+/* REPLACE END — FINAL Mobile Drawer (Aurevo 版) */
+
 
 
 /* APPEND START — 修正 mobile 抽屜顏色與可讀性 */
