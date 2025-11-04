@@ -28,3 +28,12 @@
   });
 })();
 // REPLACE END — Mobile Drawer minimal controller (pure JS)
+/* REPLACE START — 抽屜內點連結時，關抽屜但不影響導頁 */
+nav.addEventListener('click', function(e){
+  var a=e.target.closest('a[href]');
+  if(!a) return;
+  // 不阻擋預設行為（讓瀏覽器正常導頁）
+  overlay.classList.remove('show');
+  document.body.classList.remove('nav-open');
+});
+/* REPLACE END — 抽屜內點連結時，關抽屜但不影響導頁 */
