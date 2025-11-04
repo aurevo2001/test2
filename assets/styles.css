@@ -454,44 +454,35 @@ img,video{user-select:none;-webkit-user-drag:none;-webkit-touch-callout:none}
   /* 漢堡鍵 */
   .nav-toggle{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;font-size:24px;border:0;background:transparent;color:#fff}
 
-  /* Header 固定＋同色 */
-  .site-header{position:sticky;top:0;z-index:10000;background:var(--c-header);color:#fff}
+  /* Header 固定與色系（不做模糊，避免透到底） */
+  .site-header{position:sticky;top:0;z-index:10000;background:var(--c-header);box-shadow:0 6px 18px rgba(0,0,0,.12)}
 
-  /* 右側抽屜（顏色=header；無模糊） */
-  .site-nav{
-    position:fixed;top:var(--header-h);right:0;bottom:0;left:auto;
-    width:clamp(260px,33.333vw,420px);
-    background:var(--c-header);color:#fff;
-    z-index:10002;transform:translateX(100%);will-change:transform;
-    transition:transform .25s ease;overflow:auto;-webkit-overflow-scrolling:touch;
-    box-shadow:-12px 0 32px rgba(0,0,0,.28);border-left:1px solid rgba(255,255,255,.08);
-    border-radius:12px 0 0 0; /* 上角同你截圖 */
+  /* 右側抽屜（純實色、位於 overlay 之上、可點擊） */
+  .site-nav{position:fixed;top:var(--header-h);right:0;bottom:0;left:auto;width:33.333vw;min-width:260px;max-width:420px;
+    background:var(--c-header); /* 實心 */
+    color:#fff; z-index:10001;
+    transform:translateX(100%); transition:transform .25s ease;
+    border-radius:12px 0 0 0; box-shadow:-12px 0 32px rgba(0,0,0,.28);
+    padding:10px 6px; display:block; will-change:transform;
+    backdrop-filter:none !important; -webkit-backdrop-filter:none !important; /* 禁止任何霧化 */
   }
   body.nav-open .site-nav{transform:translateX(0)}
 
-  /* 只覆蓋內容區，不覆蓋抽屜 → 抽屜可點 */
-  .menu-overlay{
-    position:fixed;top:var(--header-h);left:0;bottom:0;
-    right:clamp(260px,33.333vw,420px); /* 空出抽屜寬度 */
-    background:rgba(0,0,0,.45);backdrop-filter:blur(2px);
-    opacity:0;pointer-events:none;transition:opacity .2s ease;z-index:10001;
-  }
-  .menu-overlay.show{opacity:1;pointer-events:auto}
+  .site-nav ul{list-style:none;margin:0;padding:12px;display:flex;flex-direction:column;gap:6px}
+  .site-nav a{display:block;padding:14px 16px;border-radius:10px;text-decoration:none;color:#fff;opacity:1}
+  .site-nav a:hover,.site-nav a:focus{background:rgba(255,255,255,.16);color:#fff}
+  .site-nav a.is-active{background:#fff;color:var(--c-header);font-weight:800}
 
-  /* 抽屜內排版＆觸控命中區 */
-  .site-nav ul{list-style:none;margin:0;padding:8px 8px 16px;display:flex;flex-direction:column;gap:6px}
-  .site-nav a{
-    display:block;padding:14px 16px;border-radius:10px;
-    text-decoration:none;color:#fff!important;font-weight:800;letter-spacing:.02em;opacity:1
-  }
-  .site-nav a:hover,.site-nav a:focus{background:rgba(255,255,255,.12);color:#fff}
-  .site-nav a.is-active{background:#fff;color:var(--c-header)!important}
+  /* 遮罩層（位於 nav 下方，確保不遮擋點擊） */
+  .menu-overlay{position:fixed;top:var(--header-h);left:0;right:0;bottom:0;background:rgba(0,0,0,.45);
+    backdrop-filter:blur(2px); opacity:0; pointer-events:none; transition:opacity .2s ease; z-index:10000}
+  .menu-overlay.show{opacity:1; pointer-events:auto}
+
+  /* 開啟抽屜時，鎖捲動 */
   body.nav-open{overflow:hidden}
 }
 @media(min-width:981px){.nav-toggle{display:none}.menu-overlay{display:none}}
 /* REPLACE END — FINAL Mobile Drawer (Aurevo 版) */
-
-
 
 /* APPEND START — 修正 mobile 抽屜顏色與可讀性 */
 @media(max-width:980px){
