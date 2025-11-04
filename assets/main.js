@@ -1,27 +1,30 @@
-<!-- REPLACE START — Mobile drawer toggle (Aurevo 版) -->
-<script>
+// REPLACE START — Mobile Drawer minimal controller (pure JS)
 (function(){
-  const btn=document.querySelector('.nav-toggle');
-  const nav=document.querySelector('.site-nav');
-  if(!btn||!nav) return;
+  var btn=document.querySelector('.nav-toggle');
+  var nav=document.querySelector('.site-nav');
+  var overlay=document.getElementById('menuOverlay');
+  if(!btn||!nav||!overlay) return;
 
-  let overlay=document.getElementById('menuOverlay');
-  if(!overlay){
-    overlay=document.createElement('div');
-    overlay.id='menuOverlay';
-    overlay.className='menu-overlay';
-    document.body.appendChild(overlay);
-  }
+  function open(){ document.body.classList.add('nav-open'); overlay.classList.add('show'); }
+  function close(){ overlay.classList.remove('show'); document.body.classList.remove('nav-open'); }
 
-  const open=()=>{document.body.classList.add('nav-open');overlay.classList.add('show');btn.setAttribute('aria-expanded','true');};
-  const close=()=>{document.body.classList.remove('nav-open');overlay.classList.remove('show');btn.setAttribute('aria-expanded','false');};
+  // 切換
+  btn.addEventListener('click',function(e){ e.stopPropagation(); if(document.body.classList.contains('nav-open')) close(); else open(); });
 
-  btn.addEventListener('click',e=>{e.stopPropagation();document.body.classList.contains('nav-open')?close():open();});
+  // 點遮罩關閉
   overlay.addEventListener('click',close);
-  nav.addEventListener('click',e=>{const a=e.target.closest('a'); if(a) close();});
-  window.addEventListener('keyup',e=>{if(e.key==='Escape') close();});
-  window.addEventListener('resize',()=>{if(window.innerWidth>=981) close();});
-})();
-</script>
-<!-- REPLACE END -->
 
+  // ESC 關閉
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+
+  // 點抽屜內部不要冒泡到 body
+  nav.addEventListener('click',function(e){ e.stopPropagation(); });
+
+  // 點頁面其它地方也關閉
+  document.addEventListener('click',function(e){
+    if(!document.body.classList.contains('nav-open')) return;
+    if(nav.contains(e.target) || btn.contains(e.target)) return;
+    close();
+  });
+})();
+// REPLACE END — Mobile Drawer minimal controller (pure JS)
